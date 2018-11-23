@@ -5,8 +5,10 @@ import { Redirect } from 'react-router-dom'
 import { Input, Collection, CollectionItem } from 'react-materialize'
 import moment from 'moment'
 import Slider from "react-slick";
+import { compose } from 'redux'
+import { firestoreConnect } from 'react-redux-firebase'
 
-class CreateProject extends Component {
+class LunchMenu extends Component {
   state = {
     title: '',
     content: '',
@@ -32,19 +34,19 @@ class CreateProject extends Component {
     // console.log(this.state)
   }
   render() {
-    const { auth } = this.props;
+    const { auth, meals } = this.props;
     if (!auth.uid) return <Redirect to='/signin' />
-    let months = 
-      [ new Date(2019, 1),
-        new Date(2019, 0),
-        new Date(2018, 11),
-      ]
-    let months_formated = months.map((month) => moment(month).format("MMM YYYY"))
-    let selectorOptions = [
-      <option key={0} value={months[0]}>{months_formated[0]}</option>,
-      <option key={1} value={months[1]}>{months_formated[1]}</option>,
-      <option key={2} value={months[2]}>{months_formated[2]}</option>,
-    ]
+
+    let months = []
+    for (let year in meals){
+      for (let month in meals[year]){
+        months.push(new Date(year, month-1))
+      }
+    }
+
+    let selectorOptions = months.map((month) => (
+      <option key={String(month)} value={month}>{moment(month).format("MMM YYYY")}</option>
+    ))
 
     var settings = {
       dots: true,
@@ -73,9 +75,13 @@ class CreateProject extends Component {
         <Input s={12}
           type='select' 
           label={'Select Month'} 
-          defaultValue={'1222'}
-          onChange={(_,month) => {
-            console.log(month)
+          defaultValue={''}
+          onChange={(_,value) => {
+            let date = new Date(value)
+            let year = date.getFullYear()
+            let month = date.getMonth() + 1
+
+            console.log(meals[year][month])
           }}>
               {selectorOptions}
         </Input>
@@ -150,7 +156,8 @@ class CreateProject extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    auth: state.firebase.auth
+    auth: state.firebase.auth,
+    meals: state.firestore.data.meals
   }
 }
 
@@ -160,4 +167,10 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateProject)
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  // when the projects collections updatesin firestore, it will automatically trigger the firestore reducer
+  firestoreConnect([
+    { collection: 'meals'},
+  ])
+)(LunchMenu)

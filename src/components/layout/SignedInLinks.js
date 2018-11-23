@@ -9,13 +9,13 @@ const SignedInLinks = (props) => {
   <div>
     <ul className="right">
       <li style={{lineHeight: 1, marginTop: 5}}>
-        <NavLink to='/' className='btn-small btn-floating pink lighten-1'>
-          <img src={"img/yuna.jpg"} />
+        <NavLink to='/' className="center">
+          <img className='right-align btn-small btn-floating pink lighten-1' src={"img/yuna.jpg"} />
+          <br/>
+          <small className="truncate">
+              {props.profile.students? props.profile.students[0].studentName : ""}
+          </small>
         </NavLink>
-        <br/>
-        <small className="col s1">
-            {props.profile.students? props.profile.students[0].studentName : ""}
-        </small>
       </li>
     </ul>
     <ul className="right hide-on-med-and-down">
