@@ -1,9 +1,16 @@
 export const signIn = (credentials) => {
-  return (dispatch, getState, {getFirebase}) => {
+  return async (dispatch, getState, {getFirebase, getFirestore}) => {
     const firebase = getFirebase();
-    
+    const firestore = getFirestore();
+
+    const query = firestore.collection('families').where("username", "==", credentials.username);
+    const snapshot = await query.get();
+    console.log(snapshot.docs[0].data())
+
+    const userInfo = snapshot.docs[0].data()
+    const email = userInfo.email
     firebase.auth().signInWithEmailAndPassword(
-      credentials.email,
+      email,
       credentials.password
     ).then(() => {
       dispatch({ type: 'LOGIN_SUCCESS'})

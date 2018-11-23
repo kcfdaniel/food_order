@@ -4,12 +4,12 @@ import 'firebase/auth'
 
 // Initialize Firebase
 var config = {
-  apiKey: "AIzaSyAxbz3FOJZotZddawNWKZ-MmXNzNlEDxyI",
-  authDomain: "lunch-d218c.firebaseapp.com",
-  databaseURL: "https://lunch-d218c.firebaseio.com",
-  projectId: "lunch-d218c",
-  storageBucket: "lunch-d218c.appspot.com",
-  messagingSenderId: "203520280330"
+  apiKey: "AIzaSyBXQOZzDj0f0aKEfsJttURjfYivkEs9OBo",
+  authDomain: "nutrition-99253.firebaseapp.com",
+  databaseURL: "https://nutrition-99253.firebaseio.com",
+  projectId: "nutrition-99253",
+  storageBucket: "nutrition-99253.appspot.com",
+  messagingSenderId: "384430181305"
 };
 firebase.initializeApp(config);
 firebase.firestore().settings({ timestampsInSnapshots: true})
