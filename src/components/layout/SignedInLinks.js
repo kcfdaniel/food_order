@@ -19,7 +19,6 @@ const SignedInLinks = (props) => {
       </li>
     </ul>
     <ul className="right hide-on-med-and-down">
-      <li><NavLink to='/create'>New Project</NavLink></li>
       <li><a onClick={props.signOut}>Log Out</a></li>
     </ul>
   </div>
