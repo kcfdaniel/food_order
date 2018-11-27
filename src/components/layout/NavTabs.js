@@ -12,10 +12,10 @@ const NavTabs = (props) => {
                     history.push('/');
                     return
                 case "1":
-                    history.push('/lunch_menu');
+                    history.push('/photos');
                     return
                 case "2":
-                    history.push('/photos');
+                    history.push('/lunch_menu');
                     return
                 case "3":
                     history.push('/profile');
