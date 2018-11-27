@@ -5,6 +5,8 @@ import { signOut } from '../../store/actions/authActions'
 
 const SignedInLinks = (props) => {
   console.log(props);
+  const { profile, nav } = props;
+
   return (
   <div>
     <ul className="right">
@@ -13,7 +15,11 @@ const SignedInLinks = (props) => {
           <img className='right-align btn-small btn-floating pink lighten-1' src={"img/yuna.jpg"} />
           <br/>
           <small className="truncate">
-              {props.profile.students? props.profile.students[0].studentName : ""}
+              {
+                profile.students ? 
+                (nav.studentID ? (profile.students.find(obj => obj.studentID == nav.studentID).studentName) : profile.students[0].studentName) : 
+                ""
+              }
           </small>
         </NavLink>
       </li>
@@ -25,10 +31,18 @@ const SignedInLinks = (props) => {
   )
 }
 
+const mapStateToProps = (state) => {
+  console.log(state)
+  return {
+      profile: state.firebase.profile, 
+      nav: state.nav
+  }
+}
+
 const mapDispatchToProps = (dispatch) => {
   return {
     signOut: () => dispatch(signOut())
   }
 }
 
-export default connect(null, mapDispatchToProps)(SignedInLinks)
+export default connect(mapStateToProps, mapDispatchToProps)(SignedInLinks)

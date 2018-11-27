@@ -1,4 +1,5 @@
 import authReducer from './authReducer'
+import navReducer from './navReducer'
 import projectReducer from './projectReducer'
 import { combineReducers } from 'redux'
 import { firestoreReducer } from 'redux-firestore'
@@ -6,6 +7,7 @@ import { firebaseReducer } from 'react-redux-firebase'
 
 const rootReducer = combineReducers({
   auth: authReducer,
+  nav: navReducer,
   project: projectReducer,
   firestore: firestoreReducer,
   firebase: firebaseReducer,

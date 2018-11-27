@@ -10,7 +10,7 @@ const Navbar = (props) => {
     const { auth, profile, history } = props;
     console.log("props:");
     console.log(props);
-    const links = auth.uid ? <SignedInLinks profile={profile}/> : <SignedOutLinks />;
+    const links = auth.uid ? <SignedInLinks /> : <SignedOutLinks />;
     return (
         <div>
             <nav className="nav-extended wrapper green darken-1">
@@ -20,8 +20,6 @@ const Navbar = (props) => {
                         { links }
                         <SideNavMenu />
                     </div>
-                </div>
-                <div className="nav-content">
                 </div>
                 <div className="container">
                     <NavTabs history={history} />
