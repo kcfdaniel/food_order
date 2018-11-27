@@ -26,8 +26,8 @@ const NavTabs = (props) => {
             }
         }}>
             <Tab title={<i className="material-icons waves-effect">home</i>} active={history.location.pathname == '/'}/>
-            <Tab title={<i className="material-icons waves-effect">restaurant_menu</i>} active={history.location.pathname == '/lunch_menu'}/>
             <Tab title={<i className="material-icons waves-effect">photo</i>} active={history.location.pathname == '/photos'}/>
+            <Tab title={<i className="material-icons waves-effect">restaurant_menu</i>} active={history.location.pathname == '/lunch_menu'}/>
             <Tab title={<i className="material-icons waves-effect">person</i>} active={history.location.pathname == '/profile'}/>
         </Tabs>
     )
