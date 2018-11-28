@@ -37,16 +37,19 @@ class LunchMenu extends Component {
     const { auth, meals } = this.props;
     if (!auth.uid) return <Redirect to='/signin' />
 
-    let months = []
-    for (let year in meals){
-      for (let month in meals[year]){
-        months.push(new Date(year, month-1))
-      }
-    }
+    console.log(meals)
+    
+    // allow select month
+    // let months = []
+    // for (let year in meals){
+    //   for (let month in meals[year]){
+    //     months.push(new Date(year, month-1))
+    //   }
+    // }
 
-    let selectorOptions = months.map((month) => (
-      <option key={String(month)} value={month}>{moment(month).format("MMM YYYY")}</option>
-    ))
+    // let selectorOptions = months.map((month) => (
+    //   <option key={String(month)} value={month}>{moment(month).format("MMM YYYY")}</option>
+    // ))
 
     var settings = {
       dots: true,
@@ -72,7 +75,8 @@ class LunchMenu extends Component {
 
     return (
       <div className="container">
-        <Input s={12}
+        {/* allow select month */}
+        {/* <Input s={12}
           type='select' 
           label={'Select Month'} 
           defaultValue={''}
@@ -84,7 +88,7 @@ class LunchMenu extends Component {
             console.log(meals[year][month])
           }}>
               {selectorOptions}
-        </Input>
+        </Input> */}
 
 
         <Slider {...settings}>
@@ -135,7 +139,7 @@ class LunchMenu extends Component {
           </div>
       </Slider>
 
-        <form onSubmit={this.handleSubmit} className="white">
+        {/* <form onSubmit={this.handleSubmit} className="white">
           <h5 className="grey-text text-darken-3">Create new project</h5>
           <div className="input-field">
             <label htmlFor="title">Title</label>
@@ -148,7 +152,7 @@ class LunchMenu extends Component {
           <div className="input-field">
             <button className="btn pink lighten-1 z-depth-0">Create</button>
           </div>
-        </form>
+        </form> */}
       </div>
     )
   }
@@ -157,7 +161,7 @@ class LunchMenu extends Component {
 const mapStateToProps = (state) => {
   return {
     auth: state.firebase.auth,
-    meals: state.firestore.data.meals
+    meals: state.firestore.ordered.meals
   }
 }
 
@@ -171,6 +175,11 @@ export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   // when the projects collections updatesin firestore, it will automatically trigger the firestore reducer
   firestoreConnect([
-    { collection: 'meals'},
+    { collection: 'meals', 
+    whereEqualTo: ["restaurantID", 0], 
+    where: [
+      ["date", ">=", moment().add(1, 'month').startOf('month').format('YYYY-MM-DD')], 
+      ["date", "<=", moment().add(1, 'month').endOf('month').format('YYYY-MM-DD')]], 
+    orderBy: ['date', 'desc']},
   ])
 )(LunchMenu)

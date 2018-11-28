@@ -39,9 +39,9 @@ const mapStateToProps = (state) => {
 
 export default compose(
   connect(mapStateToProps),
-  // when the projects collections updatesin firestore, it will automatically trigger the firestore reducer
+  // when the projects collections updates in firestore, it will automatically trigger the firestore reducer
   firestoreConnect([
     { collection: 'projects', orderBy: ['createAt', 'desc']},
-    { collection: 'notifications', limit: 3, orderBy: ['time', 'desc']}
+    { collection: 'notifications', limit: 3, orderBy: ['time', 'desc']},
   ])
 )(Dashboard)
