@@ -9,7 +9,6 @@ const SideNavMenu = (props) => {
   const { nav, auth, profile, signOut, changeStudent } = props;
   console.log("profile:");
   console.log(profile);
-  // {nav.studnetID == student.studentID ? selected : {}}
   console.log(nav.studentID);
   let options = profile.students ? profile.students.map((student) => <option selected={nav.studentID == student.studentID ? true : false} value={student.studentID}>{student.studentName}</option>) : []
 
