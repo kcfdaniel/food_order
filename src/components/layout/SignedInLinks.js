@@ -5,20 +5,28 @@ import { signOut } from '../../store/actions/authActions'
 
 const SignedInLinks = (props) => {
   console.log(props);
-  const { profile, nav } = props;
-
+  const { profile, student } = props;
+  console.log(student.studentID);
+  // console.log(profile.students ? profile.students[student.studentID].pictureURL : "");
   return (
   <div>
     <ul className="right">
       <li style={{lineHeight: 1, marginTop: 5}}>
         <NavLink to='/' className="center">
-          <img className='right-align btn-small btn-floating pink lighten-1' src={"img/yuna.jpg"} />
+          <img className='right-align btn-small btn-floating pink lighten-1' src={profile.students && profile.students[student.studentID] && profile.students[student.studentID].pictureURL? profile.students[student.studentID].pictureURL : "img/yuna.jpg"} />
           <br/>
           <small className="truncate">
               {
                 profile.students ? 
-                (nav.studentID ? (profile.students.find(obj => obj.studentID == nav.studentID).studentName) : profile.students[0].studentName) : 
-                ""
+                  (student.studentID ? 
+                    (profile.students[student.studentID].nickname != "" ? 
+                      profile.students[student.studentID].nickname
+                       : profile.students[student.studentID].fullname
+                    ) :(profile.students[Object.keys(profile.students)[0]].nickname != "" ? 
+                      profile.students[Object.keys(profile.students)[0]].nickname
+                      : profile.students[Object.keys(profile.students)[0]].fullname
+                    )
+                  ) : ""
               }
           </small>
         </NavLink>
@@ -35,7 +43,7 @@ const mapStateToProps = (state) => {
   console.log(state)
   return {
       profile: state.firebase.profile, 
-      nav: state.nav
+      student: state.student
   }
 }
 

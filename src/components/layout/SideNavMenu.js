@@ -2,22 +2,23 @@ import React from 'react'
 import {SideNav, SideNavItem, Row, Input} from 'react-materialize'
 import { connect } from 'react-redux'  
 import { signOut } from '../../store/actions/authActions'
-import { changeStudent } from '../../store/actions/navActions'
+import { changeStudent } from '../../store/actions/studentActions'
 import { NavLink } from 'react-router-dom'
 
 const SideNavMenu = (props) => {
-  const { nav, auth, profile, signOut, changeStudent } = props;
+  const { student, auth, profile, signOut, changeStudent } = props;
   console.log("profile:");
   console.log(profile);
-  console.log(nav.studentID);
-  let options = profile.students ? profile.students.map((student) => <option selected={nav.studentID == student.studentID ? true : false} value={student.studentID}>{student.studentName}</option>) : []
+  console.log(student.studentID);
+  // console.log(profile.students ? profile.students[student.studentID] : "");
+  let options = profile.students ? Object.keys(profile.students).map((s) => <option selected={profile.students[s].studentID == student.studentID ? true : false} value={profile.students[s].studentID}>{profile.students[s].fullname}</option>) : []
 
   function handleChangeStudent(_,value){
     console.log(value)
     changeStudent(value);
   }
 
-  console.log(nav.studentID)
+  console.log(student.studentID)
 
   return (
         <SideNav
@@ -27,7 +28,7 @@ const SideNavMenu = (props) => {
             <SideNavItem userView
                 user={{
                 background: 'img/office.jpg',
-                image: 'img/yuna.jpg',
+                image: profile.students && profile.students[student.studentID] && profile.students[student.studentID].pictureURL ? profile.students[student.studentID].pictureURL : "img/yuna.jpg",
                 name: 
                   options ? 
                   <Input s={12} style={{lineHeight: 1}} type='select' defaultValue="1" onChange={handleChangeStudent}>{options}</Input>
@@ -51,7 +52,7 @@ const SideNavMenu = (props) => {
 const mapStateToProps = (state) => {
   console.log(state)
   return {
-    nav: state.nav,
+    student: state.student,
     auth: state.firebase.auth,
     profile: state.firebase.profile
   }

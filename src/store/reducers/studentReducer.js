@@ -2,7 +2,7 @@ const initState = {
   studentID: null
 }
 
-const navReducer = (state = initState, action) => {
+const studentReducer = (state = initState, action) => {
   switch(action.type){
     case 'CHANGE_STUDENT':
       console.log('change student');
@@ -10,9 +10,12 @@ const navReducer = (state = initState, action) => {
         ...state,
         studentID: action.payload
       }
+    case 'UPDATE_STUDENT':
+      console.log('update student');
+      return state;
     default:
       return state;
   }
 }
 
-export default navReducer
+export default studentReducer

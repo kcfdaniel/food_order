@@ -10,7 +10,7 @@ import thunk from 'redux-thunk'
 import { reduxFirestore, getFirestore } from 'redux-firestore'
 import { reactReduxFirebase, getFirebase } from 'react-redux-firebase'
 import fbConfig from './config/fbConfig'
-import { changeStudent } from './store/actions/navActions';
+import { changeStudent } from './store/actions/studentActions';
 
 const store = createStore(rootReducer, 
   compose(
@@ -20,8 +20,11 @@ const store = createStore(rootReducer,
   )
 );
 
-if (localStorage.studentID) {
+if (typeof localStorage.studentID != "undefined" && localStorage.studentID != "undefined" && localStorage.studentID !== null){
   store.dispatch(changeStudent(localStorage.studentID))
+}
+else{
+  store.dispatch(changeStudent())
 }
 
 store.firebaseAuthIsReady.then(() => {

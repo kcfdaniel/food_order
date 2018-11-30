@@ -1,8 +1,12 @@
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+
 export const signIn = (credentials) => {
   return async (dispatch, getState, {getFirebase, getFirestore}) => {
     const firebase = getFirebase();
     const firestore = getFirestore();
-
     const query = firestore.collection('families').where("username", "==", credentials.username);
     const snapshot = await query.get();
     console.log(snapshot.docs[0].data())
@@ -12,8 +16,22 @@ export const signIn = (credentials) => {
     firebase.auth().signInWithEmailAndPassword(
       email,
       credentials.password
-    ).then(() => {
-      dispatch({ type: 'LOGIN_SUCCESS'})
+    ).then( async () => {
+      dispatch({ type: 'LOGIN_SUCCESS'});
+      let state = getState();
+      let profile = state.firebase.profile
+
+      while(!profile.students){
+        await sleep(500);
+        state = getState(); 
+        profile = state.firebase.profile; 
+      }
+      let studentID = profile.students[0].studentID;
+      localStorage.setItem('studentID', studentID);
+      dispatch({ 
+        type: 'CHANGE_STUDENT',
+        payload: studentID
+      });
     }).catch((err) => {
       dispatch({ type: 'LOGIN_ERROR', err })
     })
@@ -22,6 +40,8 @@ export const signIn = (credentials) => {
 
 export const signOut = () => {
   return (dispatch, getState, {getFirebase}) => {
+  localStorage.removeItem("studentID")
+
     const firebase = getFirebase();
 
     firebase.auth().signOut().then(() => {
