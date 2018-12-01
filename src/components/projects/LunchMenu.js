@@ -10,17 +10,16 @@ import { firestoreConnect } from 'react-redux-firebase'
 
 class LunchMenu extends Component {
   state = {
-    title: '',
-    content: '',
-    selectedMeal: 'A',
+
   }
   handleChangeDay = () => {
     
   }
-  handleSelectMeal = (meal) => {
+  handleSelectMeal = (day, choice) => {
     this.setState({
-      selectedMeal: meal
-    })
+      ...this.state,
+      [day]: choice
+    }, () => {console.log(this.state)})
   }
   handleChange = (e) => {
     this.setState({
@@ -33,11 +32,9 @@ class LunchMenu extends Component {
     this.props.history.push('/');
   }
   render() {
-    const { auth, meals } = this.props;
+    const { auth, menu } = this.props;
     if (!auth.uid) return <Redirect to='/signin' />
 
-    console.log(meals)
-    
     // allow select month
     // let months = []
     // for (let year in meals){
@@ -91,51 +88,16 @@ class LunchMenu extends Component {
 
 
         <Slider {...settings}>
-          <div>
-            <b>Monday</b>
-            <Collection>
-              <CollectionItem href active={this.state.selectedMeal == 'A'} onClick={() => this.handleSelectMeal('A')}>A: mealA</CollectionItem>
-              <CollectionItem href active={this.state.selectedMeal == 'B'} onClick={() => this.handleSelectMeal('B')}>B: mealB</CollectionItem>
-              <CollectionItem href active={this.state.selectedMeal == 'C'} onClick={() => this.handleSelectMeal('C')}>C: mealC</CollectionItem>
-              <CollectionItem href active={this.state.selectedMeal == 'D'} onClick={() => this.handleSelectMeal('D')}>D: mealD</CollectionItem>
+          {menu ? menu[Object.keys(menu)[0]].days.map(day => 
+            <div>
+              <b>{day.day}</b>
+              <Collection>
+                {day.choices.map(choice => 
+                <CollectionItem href active={this.state[day.day] ? this.state[day.day].choice == choice.choice : false}  onClick={() => this.handleSelectMeal(day.day, choice)}>{choice.choice}: {choice.name}</CollectionItem>
+              )}
             </Collection>
-          </div>
-          <div>
-            <b>Tuesday</b>
-            <Collection>
-              <CollectionItem href active={this.state.selectedMeal == 'A'} onClick={() => this.handleSelectMeal('A')}>A: mealA</CollectionItem>
-              <CollectionItem href active={this.state.selectedMeal == 'B'} onClick={() => this.handleSelectMeal('B')}>B: mealB</CollectionItem>
-              <CollectionItem href active={this.state.selectedMeal == 'C'} onClick={() => this.handleSelectMeal('C')}>C: mealC</CollectionItem>
-              <CollectionItem href active={this.state.selectedMeal == 'D'} onClick={() => this.handleSelectMeal('D')}>D: mealD</CollectionItem>
-            </Collection>
-          </div>
-          <div>
-            <b>Wednesday</b>
-            <Collection>
-              <CollectionItem href active={this.state.selectedMeal == 'A'} onClick={() => this.handleSelectMeal('A')}>A: mealA</CollectionItem>
-              <CollectionItem href active={this.state.selectedMeal == 'B'} onClick={() => this.handleSelectMeal('B')}>B: mealB</CollectionItem>
-              <CollectionItem href active={this.state.selectedMeal == 'C'} onClick={() => this.handleSelectMeal('C')}>C: mealC</CollectionItem>
-              <CollectionItem href active={this.state.selectedMeal == 'D'} onClick={() => this.handleSelectMeal('D')}>D: mealD</CollectionItem>
-            </Collection>
-          </div>
-          <div>
-            <b>Thursday</b>
-            <Collection>
-              <CollectionItem href active={this.state.selectedMeal == 'A'} onClick={() => this.handleSelectMeal('A')}>A: mealA</CollectionItem>
-              <CollectionItem href active={this.state.selectedMeal == 'B'} onClick={() => this.handleSelectMeal('B')}>B: mealB</CollectionItem>
-              <CollectionItem href active={this.state.selectedMeal == 'C'} onClick={() => this.handleSelectMeal('C')}>C: mealC</CollectionItem>
-              <CollectionItem href active={this.state.selectedMeal == 'D'} onClick={() => this.handleSelectMeal('D')}>D: mealD</CollectionItem>
-            </Collection>
-          </div>
-          <div>
-            <b>Friday</b>
-            <Collection>
-              <CollectionItem href active={this.state.selectedMeal == 'A'} onClick={() => this.handleSelectMeal('A')}>A: mealA</CollectionItem>
-              <CollectionItem href active={this.state.selectedMeal == 'B'} onClick={() => this.handleSelectMeal('B')}>B: mealB</CollectionItem>
-              <CollectionItem href active={this.state.selectedMeal == 'C'} onClick={() => this.handleSelectMeal('C')}>C: mealC</CollectionItem>
-              <CollectionItem href active={this.state.selectedMeal == 'D'} onClick={() => this.handleSelectMeal('D')}>D: mealD</CollectionItem>
-            </Collection>
-          </div>
+            </div>
+            ) : ""}
       </Slider>
       </div>
     )
@@ -145,7 +107,7 @@ class LunchMenu extends Component {
 const mapStateToProps = (state) => {
   return {
     auth: state.firebase.auth,
-    meals: state.firestore.ordered.meals
+    menu: state.firestore.data.menus
   }
 }
 
@@ -159,11 +121,8 @@ export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   // when the projects collections updatesin firestore, it will automatically trigger the firestore reducer
   firestoreConnect([
-    { collection: 'meals', 
-    whereEqualTo: ["restaurantID", 0], 
-    where: [
-      ["date", ">=", moment().add(1, 'month').startOf('month').format('YYYY-MM-DD')], 
-      ["date", "<=", moment().add(1, 'month').endOf('month').format('YYYY-MM-DD')]], 
-    orderBy: ['date', 'desc']},
+    { collection: "menus", 
+    where: ["month", "==", moment().add(1, 'month').startOf('month').format('YYYY-MM')], 
+    },
   ])
 )(LunchMenu)

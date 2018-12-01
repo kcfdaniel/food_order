@@ -20,8 +20,9 @@ class Profile extends Component {
   }
 
   componentWillReceiveProps(props){
-    let student = props.profile.students ? props.profile.students[props.student.studentID] : {};
-    if (!student.pictureURL){
+    let student = props.student;
+    console.log(student)
+    if (student && !student.pictureURL){
       this.setState({
         ...student,
         pictureURL: props.profile_pic_urls[0]
@@ -102,8 +103,8 @@ class Profile extends Component {
       <div className="container">
         <form onSubmit={this.handleSubmit} className="white">
           <h3 className="grey-text text-darken-3 center">About Me</h3>
-          <p className="grey-text text-darken-3">Student Full Name: {profile.students ? profile.students[student.studentID].fullname : ""}</p>
-          <p className="grey-text text-darken-3">Student ID: {profile.students ? profile.students[student.studentID].studentID : ""}</p>
+          <p className="grey-text text-darken-3">Student Full Name: {student.fullname}</p>
+          <p className="grey-text text-darken-3">Student ID: {student.studentID ? student.studentID.split("_")[1] : ""}</p>
           <div className="input-field">
             <label htmlFor="nickname">Nickname</label>
             <input type="text" id="nickname" onChange={this.handleChange} value={this.state.nickname} ref={(input) => { this.nicknameInput = input; }} />

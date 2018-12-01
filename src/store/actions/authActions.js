@@ -26,11 +26,16 @@ export const signIn = (credentials) => {
         state = getState(); 
         profile = state.firebase.profile; 
       }
-      let studentID = profile.students[0].studentID;
-      localStorage.setItem('studentID', studentID);
+      let studentDocID = profile.students[Object.keys(profile.students)[0]];
+      localStorage.setItem('studentDocID', studentDocID);
+      console.log(studentDocID)
+      const docRef = firestore.doc('students/'+studentDocID);
+      const doc = await docRef.get();
+      console.log(doc)
+      console.log(doc.data())
       dispatch({ 
         type: 'CHANGE_STUDENT',
-        payload: studentID
+        payload: doc.data()
       });
     }).catch((err) => {
       dispatch({ type: 'LOGIN_ERROR', err })

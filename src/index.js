@@ -20,8 +20,8 @@ const store = createStore(rootReducer,
   )
 );
 
-if (typeof localStorage.studentID != "undefined" && localStorage.studentID != "undefined" && localStorage.studentID !== null){
-  store.dispatch(changeStudent(localStorage.studentID))
+if (typeof localStorage.studentDocID != "undefined" && localStorage.studentDocID != "undefined" && localStorage.studentDocID !== null){
+  store.dispatch(changeStudent(localStorage.studentDocID))
 }
 else{
   store.dispatch(changeStudent())

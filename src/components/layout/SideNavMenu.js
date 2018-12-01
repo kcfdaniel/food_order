@@ -11,7 +11,7 @@ const SideNavMenu = (props) => {
   console.log(profile);
   console.log(student.studentID);
   // console.log(profile.students ? profile.students[student.studentID] : "");
-  let options = profile.students ? Object.keys(profile.students).map((s) => <option selected={profile.students[s].studentID == student.studentID ? true : false} value={profile.students[s].studentID}>{profile.students[s].fullname}</option>) : []
+  let options = profile.students ? Object.keys(profile.students).map((s) => <option selected={profile.students[s] == student.studentID ? true : false} value={profile.students[s]}>{s}</option>) : []
 
   function handleChangeStudent(_,value){
     console.log(value)
@@ -28,7 +28,7 @@ const SideNavMenu = (props) => {
             <SideNavItem userView
                 user={{
                 background: 'img/office.jpg',
-                image: profile.students && profile.students[student.studentID] && profile.students[student.studentID].pictureURL ? profile.students[student.studentID].pictureURL : "img/yuna.jpg",
+                image: student.pictureURL ? student.pictureURL : "img/yuna.jpg",
                 name: 
                   options ? 
                   <Input s={12} style={{lineHeight: 1}} type='select' defaultValue="1" onChange={handleChangeStudent}>{options}</Input>

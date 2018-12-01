@@ -8,12 +8,18 @@ const studentReducer = (state = initState, action) => {
       console.log('change student');
       return {
         ...state,
-        studentID: action.payload
+        ...action.payload
       }
     case 'UPDATE_STUDENT':
       console.log('update student');
-      return state;
-    default:
+      return {
+        ...state,
+        ...action.payload
+      }
+    case 'UPDATE_STUDENT_ERROR':
+      console.log('update student error', action.err);
+      return state
+    default:      
       return state;
   }
 }
