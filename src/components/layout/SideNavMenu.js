@@ -61,7 +61,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
       signOut: () => dispatch(signOut()),
-      changeStudent: (value) => dispatch(changeStudent(value)),      
+      changeStudent: (value) => dispatch(changeStudent(value)),  
     }
   }
 

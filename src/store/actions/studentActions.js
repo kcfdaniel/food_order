@@ -1,11 +1,14 @@
+import moment from 'moment'
+
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 export const changeStudent = (studentDocID) => {
   return async (dispatch, getState, {getFirebase, getFirestore}) => {
-      const firestore = getFirestore();
-      if(studentDocID){
+    const firestore = getFirestore();
+    const state = getState();
+    if(studentDocID){
       console.log(studentDocID)
 
       localStorage.setItem('studentDocID', studentDocID);
@@ -35,23 +38,27 @@ export const changeStudent = (studentDocID) => {
         payload: doc.data()
       });
     }
+    const query = firestore.collection('mealRecords')
+    .where("date", ">=", moment().add(1, 'month').startOf('month').format('YYYY-MM-DD'))
+    .where("date", "<=", moment().add(1, 'month').endOf('month').format('YYYY-MM-DD'))
+    .where("studentDocID", "==", studentDocID);
+    const snapshot = await query.get();
+
+    let mealRecords = {}
+    if (snapshot.docs[0]){
+      snapshot.docs.forEach(doc => {mealRecords[doc.id] = doc.data()
+      })
+    }
+    else{
+      console.log("no meal records")
+    }
+    dispatch({type: 'GET_NEXT_MONTH_MEAL_RECORD', payload: mealRecords});
   }
 }
 
 export const updateStudent = (student) => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
-    const state = getState();
-    const firebase = getFirebase();
     const firestore = getFirestore();
-    // let profile = state.firebase.profile;
-    // let students = profile.students;
-    // const studentID = state.student.studentID;
-    // const studentPositionInArray = profile.students.indexOf(profile.students.find(s => s.studentID == studentID))
-    // students[studentID] = student;
-    // let docID = firebase.auth().currentUser.uid; 
-    // firebase.auth().currentUser.updateProfile({
-    //   students
-    // })
     console.log(student)
     firestore.collection('students').doc(student.studentID).set({
       ...student
