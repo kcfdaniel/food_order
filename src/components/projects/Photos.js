@@ -1,15 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { createProject } from '../../store/actions/projectActions'
 import { submitMealOrder } from '../../store/actions/mealActions'
 import { Redirect } from 'react-router-dom'
-import { Input, Collection, CollectionItem } from 'react-materialize'
+import { Collection, CollectionItem } from 'react-materialize'
 import moment from 'moment'
 import Slider from "react-slick";
 import { compose } from 'redux'
 import { firestoreConnect } from 'react-redux-firebase'
 
-class LunchMenu extends Component {
+class Photos extends Component {
   state = {
 
   }
@@ -190,9 +189,13 @@ const mapDispatchToProps = (dispatch) => {
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   // when the projects collections updatesin firestore, it will automatically trigger the firestore reducer
-  firestoreConnect([
+  firestoreConnect(props => [
     { collection: "menus", 
     where: ["month", "==", moment().add(1, 'month').startOf('month').format('YYYY-MM')], 
     },
-    ])
-)(LunchMenu)
+    { collection: "mealRecords",
+  where: [["date", ">=", moment().add(1, 'month').startOf('month').format('YYYY-MM-DD')],
+          ["date", "<=", moment().add(1, 'month').endOf('month').format('YYYY-MM-DD')],
+          ["studentDocID", "==", props.student.studentID]]
+  }])
+)(Photos)
