@@ -20,20 +20,25 @@ class LunchMenu extends Component {
 
   }
   handleSelectMeal = (day, choice) => {
-    let date = moment().add(1, 'month').startOf('month').add(day-1, 'day').format('YYYY-MM-DD');
-    let studentDocID = this.props.student.studentID
-    this.setState({
-      ...this.state,
-      [studentDocID + "_" + date]: {...choice,
-              studentDocID,
-              date,
-              picURL: "",
-              fruitCompleteness: 50,
-              vegetableComepleteness: 50,
-              proteinCompleteness: 50,
-              grainsCompleteness: 50,
-              }
-    }, () => {console.log(this.state)})
+    let menu = this.props.menu
+    if (menu){
+      let month = moment(menu[Object.keys(menu)[0]].month, "YYYY-MM")
+      let date = month.clone().add(day-1, 'day').format('YYYY-MM-DD');
+      console.log(date)
+      let studentID = this.props.student.studentID
+      this.setState({
+        ...this.state,
+        [studentID + "_" + date]: {...choice,
+                studentID,
+                date,
+                picURLs: [],
+                fruitCompleteness: 50,
+                vegetableComepleteness: 50,
+                proteinCompleteness: 50,
+                grainsCompleteness: 50,
+                }
+      }, () => {console.log(this.state)})
+    }
   }
   handleChange = (e) => {
     this.setState({
@@ -43,12 +48,13 @@ class LunchMenu extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     // this.props.createProject(this.state)
-    this.props.history.push('/');
+    // this.props.history.push('/');
     this.props.submitMealOrder(this.state)
   }
   render() {
     const { auth, menu, student, nextMonthMealRecord } = this.props;
-    const studentDocID = student.studentID
+    const studentID = student.studentID
+    const month = menu ? moment(menu[Object.keys(menu)[0]].month, "YYYY-MM") : {}
     const allergies = student.allergies ? Object.keys(student.allergies).reduce((previous, key) => {
       if (student.allergies[key]){
         previous.push(key)
@@ -96,7 +102,7 @@ class LunchMenu extends Component {
     };
 
     return (
-      (nextMonthMealRecord == null || Object.keys(nextMonthMealRecord).length === 0 ? 
+      (nextMonthMealRecord == null || nextMonthMealRecord.length === 0 ? 
         <div className="container">
         {/* allow select month */}
         {/* <Input s={12}
@@ -139,9 +145,11 @@ class LunchMenu extends Component {
                     }
                   }
                   console.log(ingredients)
+                  let date = month.clone().add(day.day-1, 'day').format('YYYY-MM-DD')
+                  console.log(date)
                   return(
                     <CollectionItem href={enabled}
-                      active={enabled ? (this.state[studentDocID + "_" + moment().add(1, 'month').startOf('month').add(day.day-1, 'day').format('YYYY-MM-DD')] ? this.state[studentDocID + "_" + moment().add(1, 'month').startOf('month').add(day.day-1, 'day').format('YYYY-MM-DD')].choice == choice.choice : false ) : false}  
+                      active={enabled ? (this.state[studentID + "_" + date] ? this.state[studentID + "_" + date].choice == choice.choice : false ) : false}  
                       onClick={enabled ? (() => this.handleSelectMeal(day.day, choice)) : () => {}}>
                       {choice.choice}: {choice.name}
                     </CollectionItem>
@@ -159,9 +167,9 @@ class LunchMenu extends Component {
         :
         <div className="container">
           <Collection>
-            {Object.keys(nextMonthMealRecord).map(key => (
+            {nextMonthMealRecord.map(mealRecord => (
               <CollectionItem href >
-                {nextMonthMealRecord[key].date} : {nextMonthMealRecord[key].choice} {nextMonthMealRecord[key].name}
+                {mealRecord.date} : {mealRecord.choice} {mealRecord.name}
               </CollectionItem>
             ))}
           </Collection>

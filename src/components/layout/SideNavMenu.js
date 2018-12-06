@@ -6,7 +6,7 @@ import { changeStudent } from '../../store/actions/studentActions'
 import { NavLink } from 'react-router-dom'
 
 const SideNavMenu = (props) => {
-  const { student, auth, profile, signOut, changeStudent } = props;
+  const { student, auth, profile, signOut, changeStudent, menu} = props;
   console.log("profile:");
   console.log(profile);
   console.log(student.studentID);

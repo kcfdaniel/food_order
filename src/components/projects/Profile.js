@@ -16,7 +16,9 @@ class Profile extends Component {
   }
 
   componentDidMount(){
-    this.nicknameInput.focus();
+    if(this.nicknameInput){
+      this.nicknameInput.focus();
+    }
   }
 
   componentWillReceiveProps(props){
@@ -27,14 +29,18 @@ class Profile extends Component {
         ...student,
         pictureURL: props.profile_pic_urls[0]
       },()=>{
-        this.pictureSlider.slickGoTo(0);
+        if (this.pictureSlider){
+          this.pictureSlider.slickGoTo(0)
+        }
       });
     }
     else{
       this.setState({
         ...student,
       },()=>{
-        this.pictureSlider.slickGoTo(props.profile_pic_urls.indexOf(student.pictureURL));
+        if (this.pictureSlider) {
+          this.pictureSlider.slickGoTo(props.profile_pic_urls.indexOf(student.pictureURL))
+        }
       });
     }
   }
@@ -62,7 +68,7 @@ class Profile extends Component {
     //
   }
   render() {
-    const { profile, student, auth, profile_pic_urls } = this.props;
+    const { profile, student, auth, profile_pic_urls, previousMonthMealRecord } = this.props;
     if (!auth.uid) return <Redirect to='/signin' />
     var settings = {
       dots: false,
@@ -99,6 +105,7 @@ class Profile extends Component {
     console.log("window.innerWidth: " + window.innerWidth);
     console.log("studentID: " + student.studentID);
     console.log(this.state);
+    console.log(previousMonthMealRecord)
     return (
       <div className="container">
         <form onSubmit={this.handleSubmit} className="white">
@@ -148,7 +155,8 @@ const mapStateToProps = (state) => {
     profile: state.firebase.profile,
     student: state.student,
     auth: state.firebase.auth,
-    profile_pic_urls
+    profile_pic_urls,
+    previousMonthMealRecord: state.meal.previousMonthMealRecord
   }
 }
 

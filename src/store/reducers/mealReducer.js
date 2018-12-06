@@ -24,6 +24,20 @@ const mealReducer = (state = initState, action) => {
         mealError: null,
         nextMonthMealRecord: action.payload
       }
+    case 'GET_PREVIOUS_MONTH_MEAL_RECORD':
+      console.log("get previous month meal record success");
+      return {
+        ...state,
+        mealError: null,
+        previousMonthMealRecord: action.payload
+      }
+    case 'GET_RECENT_MEAL_RECORD':
+      console.log("get recent meal record success");
+      return {
+        ...state,
+        mealError: null,
+        recentMealRecord: action.payload
+      }
     default:
       return state;
   }

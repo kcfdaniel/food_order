@@ -18,11 +18,13 @@ const Navbar = (props) => {
                     <div className="container">
                         <Link to='/' className="brand-logo center">Nutrition</Link>
                         { links }
-                        <SideNavMenu />
+                        <SideNavMenu/>
                     </div>
                 </div>
-                <div className="container">
-                    <NavTabs history={history} />
+                <div className="nav-content">
+                    <div className="container">
+                        <NavTabs history={history} />
+                    </div>
                 </div>
             </nav>
         </div>
