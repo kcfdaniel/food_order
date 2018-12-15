@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Notifications from './Notifications'
-import ProjectList from '../projects/ProjectList'
+import PostList from '../projects/PostList'
 import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
@@ -9,15 +9,16 @@ import { Redirect } from 'react-router-dom'
 class Dashboard extends Component {
   render(){
     // console.log(this.props);
-    const { projects, auth, notifications } = this.props;
+    const { posts, auth, notifications } = this.props;
+    console.log(posts)
     // if (!auth.uid) return <Redirect to='/signin' />
 
     return(
       <div className="dashboard container">
         <div className="row">
           <div className="col s12 m12">
-            {/* <ProjectList projects={projects}/> */}
-            <ProjectList projects={["dummy1","dummy2"]}/>
+            {/* <postList posts={posts}/> */}
+            <PostList posts={posts}/>
           </div>
           {/* <div className="col s12 m5 offset-m1">
             <Notifications notifications={notifications}/>
@@ -31,7 +32,7 @@ class Dashboard extends Component {
 const mapStateToProps = (state) => {
   console.log(state);
   return {
-    projects: state.firestore.ordered.projects,
+    posts: state.firestore.ordered.posts,
     auth: state.firebase.auth,
     notifications: state.firestore.ordered.notifications
   }
@@ -39,9 +40,9 @@ const mapStateToProps = (state) => {
 
 export default compose(
   connect(mapStateToProps),
-  // when the projects collections updates in firestore, it will automatically trigger the firestore reducer
+  // when the posts collections updates in firestore, it will automatically trigger the firestore reducer
   firestoreConnect([
-    { collection: 'projects', orderBy: ['createAt', 'desc']},
-    { collection: 'notifications', limit: 3, orderBy: ['time', 'desc']},
+    { collection: 'posts', orderBy: ['createAt', 'desc']},
+    // { collection: 'notifications', limit: 3, orderBy: ['time', 'desc']},
   ])
 )(Dashboard)
