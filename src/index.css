@@ -45,10 +45,8 @@ code {
 .slick-slide .profile_pic_slide{
   opacity: 0.5;
 }
-/* 
-.sticky {
-  position: -webkit-sticky;
-  position: sticky;
-  top: 0px;
-  z-index: 2;
-} */
+
+/* for NavTabs material ui implementation. Without this, somehow the background of the tab would be turquoise when focused, when materialize css cdn is also used */
+button:focus{
+  background-color: transparent;
+}
