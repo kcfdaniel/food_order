@@ -8,7 +8,6 @@ import {Tabs, Tab} from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import {Home, Photo, RestaurantMenu, Person} from '@material-ui/icons';
 
-
 //material ui
 const styles = theme => ({
     root: {
@@ -47,29 +46,37 @@ class NavTabs extends React.Component {
     };
 
     componentDidMount(){
+        this.setActiveTab();
+    }
+
+    componentWillReceiveProps(){
+        this.setActiveTab();
+    }
+
+    setActiveTab(){
         const {history} = this.props;
-        let value = 0;
+        console.log(history.location.pathname)
         switch (history.location.pathname){
             case "/":
-                value = 0;
+                this.setState({value: 0})
                 break
             case "/photos":
-                value = 1;
+                this.setState({value: 1})
                 break
             case "/lunch_menu":
-                value = 2;
+                this.setState({value: 2})
                 break
             case "/profile":
-                value = 3;
+                this.setState({value: 3})
+                break
+            case "/signin":
+                // value = 0;
                 break
             default:
                 console.log("default case: history.location.pathname is" + history.location.pathname);
                 history.push('/');
                 break
         }
-        this.setState({
-            value
-        })
     }
 
     render() {
