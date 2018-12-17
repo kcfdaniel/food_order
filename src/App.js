@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import Navbar from './components/layout/Navbar'
-import Dashboard from './components/dashboard/Dashboard'
+import HomePage from './components/layout/HomePage'
 import Profile from './components/projects/Profile'
 import Photos from './components/projects/Photos'
 // import ProjectDetails from './components/projects/ProjectDetails'
@@ -16,7 +16,7 @@ class App extends Component {
         <div className="App">
         <Route path='/' component={Navbar} />
           <Switch> 
-            <Route exact path='/' component={Dashboard} />
+            <Route exact path='/' component={HomePage} />
             <Route path='/profile' component={Profile} />
             <Route path='/photos' component={Photos} />
             {/* <Route path='/project/:id' component={ProjectDetails} /> */}

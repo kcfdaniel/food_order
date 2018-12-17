@@ -51,3 +51,14 @@ button:focus{
   background-color: transparent;
 }
 
+.tabs {
+  padding-top: "50px"!important;;
+}
+
+.tabs .tab a {
+  color: #000000!important;
+}
+.tabs .indicator{
+  background-color:#FFFFFF!important;
+}
+
