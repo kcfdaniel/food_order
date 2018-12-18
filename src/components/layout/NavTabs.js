@@ -72,6 +72,8 @@ class NavTabs extends React.Component {
             case "/signin":
                 // value = 0;
                 break
+            case "/admin":
+                break
             default:
                 console.log("default case: history.location.pathname is" + history.location.pathname);
                 history.push('/');

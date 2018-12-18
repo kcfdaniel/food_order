@@ -42,7 +42,7 @@ class Photos extends Component {
     return (
       <div className="container">
         {recentMealRecord ?
-        <Collapsible popout defaultActiveKey={activeIndex}>
+        <Collapsible accordion popout defaultActiveKey={activeIndex}>
           {recentMealRecord.map(mealRecord => {
             let isToday = mealRecord.date == today
             return <CollapsibleItem 

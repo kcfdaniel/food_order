@@ -12,22 +12,24 @@ const Navbar = (props) => {
     console.log(props);
     const links = auth.uid ? <SignedInLinks /> : <SignedOutLinks />;
     return (
-        <div>
-            <nav className="nav-extended wrapper green darken-1">
-                <div className="nav-wrapper">
-                    <div className="container">
-                        <Link to='/' className="brand-logo center">Nutrition</Link>
-                        { links }
-                        <SideNavMenu/>
+        history.location.pathname == "/admin" ? "" :(
+            <div>
+                <nav className="nav-extended wrapper green darken-1">
+                    <div className="nav-wrapper">
+                        <div className="container">
+                            <Link to='/' className="brand-logo center">Nutrition</Link>
+                            { links }
+                            <SideNavMenu/>
+                        </div>
                     </div>
-                </div>
-                <div className="nav-content">
-                    <div className="container">
-                        <NavTabs history={history} />
+                    <div className="nav-content">
+                        <div className="container">
+                            <NavTabs history={history} />
+                        </div>
                     </div>
-                </div>
-            </nav>
-        </div>
+                </nav>
+            </div>
+        )
     )
 }
 

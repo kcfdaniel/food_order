@@ -8,6 +8,7 @@ import Photos from './components/projects/Photos'
 import SignIn from './components/auth/SignIn'
 // import SignUp from './components/auth/SignUp'
 import LunchMenu from './components/projects/LunchMenu'
+import Admin from './components/layout/Admin'
 
 class App extends Component {
   render() {
@@ -23,6 +24,7 @@ class App extends Component {
             <Route path='/signin' component={SignIn} />
             {/* <Route path='/signup' component={SignUp} /> */}
             <Route path='/lunch_menu' component={LunchMenu} />
+            <Route path='/admin' component={Admin} />
           </Switch>
         </div>
       </BrowserRouter>

@@ -9,7 +9,7 @@ import { Redirect } from 'react-router-dom'
 class Dashboard extends Component {
   render(){
     // console.log(this.props);
-    const { posts, auth, notifications } = this.props;
+    const { posts } = this.props;
     console.log(posts)
     // if (!auth.uid) return <Redirect to='/signin' />
 
@@ -32,9 +32,9 @@ class Dashboard extends Component {
 const mapStateToProps = (state) => {
   console.log(state);
   return {
+    // auth: state.firebase.auth,
     posts: state.firestore.ordered.posts,
-    auth: state.firebase.auth,
-    notifications: state.firestore.ordered.notifications
+    // notifications: state.firestore.ordered.notifications
   }
 }
 
