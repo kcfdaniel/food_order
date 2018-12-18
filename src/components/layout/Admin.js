@@ -12,6 +12,7 @@ class Admin extends Component {
     content: "",
     error: "",
     title: "",
+    uploading: false,
   }
 
   fileSelectedHandler = event => {
@@ -45,7 +46,8 @@ class Admin extends Component {
     }
 
     this.setState({
-      error
+      error,
+      uploading: true
     });
 
     if (error!=""){
@@ -62,6 +64,7 @@ class Admin extends Component {
           content: "",
           error: "",
           title: "",
+          uploading: false,
         })
         this.fileInput.value = [];
         this.form.reset()
@@ -99,7 +102,7 @@ class Admin extends Component {
           </div>
           <span className="pink-text"> {this.state.error} </span>
           <div className="input-field">
-            <button className="btn pink lighten-1 z-depth-0" onClick={this.fileUploadHandler}>Submit</button> 
+            <button className="btn pink lighten-1 z-depth-0" onClick={this.fileUploadHandler} disabled={this.state.uploading}>Submit</button> 
           </div>
         </form>
       </div>
