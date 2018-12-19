@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
-import { createPost } from '../../store/actions/postActions'
-import { connect } from 'react-redux'
-import { compose } from 'redux'
-import { firestoreConnect } from 'react-redux-firebase'
-import PreviewPic from './PreviewPic'
 import {Input} from 'react-materialize'
-class Admin extends Component {
+import PreviewPic from './PreviewPic'
+import { Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { createPost } from './store/actions/postActions'
+
+class CreatePost extends Component {
   state = {
     picURL: null,
     pic: null,
@@ -14,7 +14,7 @@ class Admin extends Component {
     title: "",
     uploading: false,
   }
-
+  
   fileSelectedHandler = event => {
     if(event!=null){
       let reader = new FileReader();
@@ -67,7 +67,8 @@ class Admin extends Component {
           uploading: false,
         })
         this.fileInput.value = [];
-        this.form.reset()
+        this.form.reset();
+        this.props.history.push('/admin/post-list');
       }
       window.Materialize.toast(err, 10000)
     })
@@ -80,7 +81,9 @@ class Admin extends Component {
   }
 
   render() {
-    const { posts } = this.props
+    const {auth} = this.props;
+    if (!auth.uid) return <Redirect to='/admin/signin' />
+
     return (
       <div className="container">
         <form action="#" className="white" ref={ref=> this.form = ref}>
@@ -112,7 +115,7 @@ class Admin extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    posts: state.firestore.ordered.posts,
+    auth: state.firebase.auth,
   }
 }
 
@@ -122,10 +125,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  // when the projects collections updatesin firestore, it will automatically trigger the firestore reducer
-  firestoreConnect([
-    { collection: 'posts', orderBy: ['createAt', 'desc']},
-    ])
-)(Admin);
+export default connect(mapStateToProps, mapDispatchToProps)(CreatePost);

@@ -3,7 +3,7 @@ html{
 }
 body {
   margin: 0;
-  padding: 0;
+  /* padding: 0; */
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
@@ -62,3 +62,26 @@ button:focus{
   background-color:#FFFFFF!important;
 }
 
+.s .card-content .card-title{
+  font-size: 15px;
+  line-height: 15px;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis; 
+}
+
+.s .card-content{
+  padding: 5px;
+}
+
+.s .card-content div .datetime{
+  font-size: 10px;
+}
+
+button.create-post{
+  position: fixed !important;; 
+  right: 23px !important;;
+  bottom: 23px !important;;
+  margin-bottom: 0 !important;;
+  z-index: 998 !important;;
+}

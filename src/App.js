@@ -8,14 +8,14 @@ import Photos from './components/projects/Photos'
 import SignIn from './components/auth/SignIn'
 // import SignUp from './components/auth/SignUp'
 import LunchMenu from './components/projects/LunchMenu'
-import Admin from './components/layout/Admin'
+import Admin from './components/admin/Admin'
 
 class App extends Component {
   render() {
     return (
       <BrowserRouter>
         <div className="App">
-        <Route path='/' component={Navbar} />
+        <Route path={new RegExp("^(?!.*(/admin)).*$")} component={Navbar} />
           <Switch> 
             <Route exact path='/' component={HomePage} />
             <Route path='/profile' component={Profile} />

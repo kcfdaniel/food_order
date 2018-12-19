@@ -104,22 +104,6 @@ class LunchMenu extends Component {
     return (
       (nextMonthMealRecord == null || nextMonthMealRecord.length === 0 ? 
         <div className="container">
-        {/* allow select month */}
-        {/* <Input s={12}
-          type='select' 
-          label={'Select Month'} 
-          defaultValue={''}
-          onChange={(_,value) => {
-            let date = new Date(value)
-            let year = date.getFullYear()
-            let month = date.getMonth() + 1
-
-            console.log(meals[year][month])
-          }}>
-              {selectorOptions}
-        </Input> */}
-
-
         <Slider {...settings}>
           {menu ? menu[Object.keys(menu)[0]].days.map(day => 
             <div>
