@@ -39,3 +39,78 @@ export const createPost = (post) => {
     return
   }
 }
+
+export const deletePost = (selectedPostsIDs) => {
+  return async (dispatch, getState, { getFirebase, getFirestore }) => {
+    //make async call to database
+    const firebase = getFirebase();
+    const firestore = getFirestore();
+    const storage = firebase.storage();
+    const state = getState();
+    const posts = state.firestore.ordered.posts
+    let targetPost = {}
+    let picURL = ""
+    let picRef = ""
+    selectedPostsIDs.forEach((postID)=>{
+      targetPost = posts.find(post => post.id == postID);
+      picURL = targetPost.picURL;
+      picRef = storage.refFromURL(picURL);
+      // Delete the file
+      picRef.delete().then(function() {
+        // File deleted successfully
+      }).catch(function(error) {
+        // Uh-oh, an error occurred!
+      });
+      firestore.collection("posts").doc(postID).delete().then(function() {
+        console.log("Document successfully deleted!");
+      }).catch(function(error) {
+          console.error("Error removing document: ", error);
+      });
+
+    })
+
+    // const targetPicURL = targetPost.
+    // const pic = post.pic
+    // const picURL = uuidv4() + "_" + Date.now() + "." + pic.name.split('.')[1]
+    // await storage.ref(`post_pics/${picURL}`).put(pic);
+    // //uploadTask.on('state_changed')...
+    // const url = await storage.ref('post_pics').child(picURL).getDownloadURL();
+    // console.log(url)
+    // try{
+    //   await firestore.collection('posts').add({
+    //     content: post.content,
+    //     createAt,
+    //     picURL: url,
+    //     title: post.title,
+    //   })
+    // } catch (err){
+    //   console.log(err)
+    //   if (err){
+    //     console.log(err)
+    //     dispatch({type: 'CREATE_POST_ERROR', err });
+    //     return err
+    //   }
+    // }
+    // dispatch({type: 'CREATE_POST', post });
+    // return
+  }
+}
+
+
+export const selectPost = (postID) => {
+  return (dispatch, getState, { getFirebase, getFirestore }) => {
+    dispatch({type: 'SELECT_POST', postID });
+  }
+}
+
+export const deselectPost = (postID) => {
+  return (dispatch, getState, { getFirebase, getFirestore }) => {
+    dispatch({type: 'DESELECT_POST', postID });
+  }
+}
+
+export const setSelectMode = (selectMode) => {
+  return (dispatch, getState, { getFirebase, getFirestore }) => {
+    dispatch({type: 'SET_SELECT_MODE', selectMode });
+  }
+}

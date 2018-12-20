@@ -1,5 +1,7 @@
 const initState = {
-  error: null
+  createPostError: null,
+  selectedPostsIDs: new Set(),
+  selectMode: false,
 }
 
 const postReducer = (state = initState, action) => {
@@ -8,13 +10,43 @@ const postReducer = (state = initState, action) => {
       console.log('created post', action.post);
       return {
         ...state,
-        error: ""
+        createPostError: ""
       }
     case 'CREATE_POST_ERROR':
       console.log('create post error', action.err);
       return {
         ...state,
-        error: action.err
+        createPostError: action.err
+      }
+    case 'SELECT_POST':
+      console.log('select post', action.postID);
+      let postID = action.postID;
+      let selectedPostsIDs = new Set(state.selectedPostsIDs);
+      selectedPostsIDs.add(postID);
+      return {
+        ...state,
+        selectedPostsIDs,
+      }
+    case 'DESELECT_POST':
+      console.log('deselect post', action.postID);
+      postID = action.postID;
+      selectedPostsIDs = new Set(state.selectedPostsIDs);
+      selectedPostsIDs.delete(postID);
+      return {
+        ...state,
+        selectedPostsIDs,
+      }
+    case 'SET_SELECT_MODE':
+      console.log('set select mode', action.selectMode);
+      let selectMode = action.selectMode;
+      selectedPostsIDs = new Set(state.selectedPostsIDs);
+      if(selectMode == false){
+        selectedPostsIDs = new Set();
+      }
+      return {
+        ...state,
+        selectMode,
+        selectedPostsIDs
       }
     default:
       return state;

@@ -65,23 +65,70 @@ button:focus{
 .s .card-content .card-title{
   font-size: 15px;
   line-height: 15px;
+  margin-left: 5px;
+  margin-top: 5px;
   width: 100%;
   overflow: hidden;
   text-overflow: ellipsis; 
 }
 
 .s .card-content{
-  padding: 5px;
+  padding: 0px;
+  /* height: 50px; */
 }
 
 .s .card-content div .datetime{
   font-size: 10px;
+  margin-left: 5px;
+  padding-bottom: 5px;
 }
 
 button.create-post{
-  position: fixed !important;; 
-  right: 23px !important;;
-  bottom: 23px !important;;
-  margin-bottom: 0 !important;;
-  z-index: 998 !important;;
+  position: fixed !important; 
+  right: 23px !important;
+  bottom: 23px !important;
+  margin-bottom: 0 !important;
+  z-index: 998 !important;
+}
+
+.cover-background {
+  background-color: grey!important;
+  position: absolute;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  opacity: 0.5;
+  bottom: 0;
+}
+
+.cover-check-button {
+  position: absolute;
+  z-index: 3;
+  bottom: 0;
+  right: 13px !important;
+  bottom: 13px !important;
+  height: 20px;
+  width: 20px;
+}
+
+.cover-check{
+  position: absolute;
+  font-size: 15px !important; 
+  height: 100% !important;
+  line-height: 0px !important;
+  top: 50% !important;
+  left: 0% !important;
+}
+
+.check-post {
+  position: absolute !important; 
+  right: 13px !important;
+  bottom: 13px !important;
+  margin-bottom: 0 !important;
+}
+
+.number-of-selected-posts {
+  font-size: 25px !important; 
+  line-height: 0 !important;
+  vertical-align: middle;
 }

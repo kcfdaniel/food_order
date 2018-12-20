@@ -23,17 +23,35 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import MailIcon from '@material-ui/icons/Mail';
 import MenuIcon from '@material-ui/icons/Menu';
+import DeleteIcon from '@material-ui/icons/Delete';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import { signOut } from './store/actions/authActions'
+import { setSelectMode, deletePost } from './store/actions/postActions'
 
 const styles = {
+  root: {
+    flexGrow: 1,
+  },
+  grow: {
+    flexGrow: 1,
+    align: "center",
+  },
+  menuButton: {
+    marginLeft: -12,
+    marginRight: 20,
+  },
   list: {
     width: 250,
   },
   fullList: {
     width: 'auto',
+  },
+  colorPrimary: {
+    backgroundColor: "#000000",
+    color: "#000000",
   },
 };
 
@@ -47,7 +65,7 @@ class Navbar extends React.Component {
   };
 
   render(){
-    const { auth, classes, history, signOut } = this.props;
+    const { auth, classes, history, signOut, selectMode, setSelectMode, selectedPostsIDs, deletePost} = this.props;
     console.log("this.props:");
     console.log(this.props);
     const links = auth.uid ? <SignedInLinks /> : <SignedOutLinks />;
@@ -81,10 +99,38 @@ class Navbar extends React.Component {
     );
 
     return (
-      <div>
-        <nav className="nav-extended wrapper green darken-1">
-          <div className="nav-wrapper">
-            <div className="container">
+      selectMode ? (
+        <div className={classes.root}>
+          <AppBar position="static" className="orange darken-1">
+            <Toolbar>
+              <IconButton
+                color="inherit"
+                onClick={() => {setSelectMode(false)}}
+                className={classes.arrowBackButton}
+              >
+                <ArrowBackIcon />
+              </IconButton>
+              <span className="number-of-selected-posts">{selectedPostsIDs.size}</span>
+              <Typography variant="h6" color="inherit" className={classes.grow}>
+                
+              </Typography>
+              <IconButton
+                color="inherit"
+                onClick={() => {
+                  deletePost(selectedPostsIDs);
+                  setSelectMode(false);
+                }}
+                className={classes.deleteButton}
+              >
+                <DeleteIcon />
+              </IconButton>
+            </Toolbar>
+          </AppBar>
+        </div>
+      ) :
+        <div>
+        <AppBar position="static" className="green darken-1" >
+          <Toolbar>
               {auth.uid ? 
                 <IconButton
                   color="inherit"
@@ -96,17 +142,19 @@ class Navbar extends React.Component {
                 </IconButton>
                 : ""
               }
-              <Link to='/admin' className="brand-logo center">Admin</Link>
+              <Typography variant="h6" color="inherit" className={(classes.grow)} align='center'>
+                Admin
+              </Typography>
+              {/* <Link to='/admin' className="brand-logo center">Admin</Link> */}
               { links }
-            </div>
-          </div>
-        </nav>
-        <Hidden smUp implementation="css">
-          <Drawer open={this.state.sideNavOpen} onClose={this.handleDrawerToggle}>
-            {drawer}
-          </Drawer>
-        </Hidden>
-      </div>
+            </Toolbar>
+          </AppBar>
+          <Hidden smUp implementation="css">
+            <Drawer open={this.state.sideNavOpen} onClose={this.handleDrawerToggle}>
+              {drawer}
+            </Drawer>
+          </Hidden>
+        </div>
     )
   }
 }
@@ -119,6 +167,8 @@ const mapStateToProps = (state) => {
     console.log(state)
     return {
         auth: state.firebase.auth,
+        selectMode: state.post.selectMode,
+        selectedPostsIDs: state.post.selectedPostsIDs,
         // profile: state.firebase.profile
     }
 }
@@ -126,6 +176,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     signOut: () => dispatch(signOut()),
+    setSelectMode: (selectMode) => dispatch(setSelectMode(selectMode)),
+    deletePost: (selectMode) => dispatch(deletePost(selectMode)),
   }
 }
 

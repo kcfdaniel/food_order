@@ -11,17 +11,11 @@ import SignIn from './SignIn'
 
 class Admin extends Component {
   state = {
-    picURL: null,
-    pic: null,
-    content: "",
-    error: "",
-    title: "",
-    uploading: false,
+    
   }
 
   render() {
-    const { history, posts, profile } = this.props
-    console.log(posts)
+    const { history, profile } = this.props
 
     //A VERY HACKY WAY TO PREVENT REGULAR USER ACCESSING ADMIN PAGE
     console.log(profile)
@@ -32,7 +26,7 @@ class Admin extends Component {
     return (
       <BrowserRouter>
         <div className="App">
-        <Route path='/admin' component={Navbar} />
+        <Route path='/admin' render={(props)=><Navbar {...props}/>} />
           <Switch> 
             <Route exact path='/admin' component={Dashboard} />
             <Route path='/admin/create-post' component={CreatePost} />
@@ -49,7 +43,6 @@ class Admin extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    posts: state.firestore.ordered.posts,
     profile: state.firebase.profile,
     auth: state.firebase.auth,
   }

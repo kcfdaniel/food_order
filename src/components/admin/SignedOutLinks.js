@@ -1,13 +1,11 @@
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
+import Button from '@material-ui/core/Button';
 
 class SignedOutLinks extends Component {
   render() {
     return (
-      <ul className="right">
-        {/* <li><NavLink to='/signup'>Signup</NavLink></li> */}
-        <li><NavLink to='/admin/signin'>Login</NavLink></li>
-      </ul>
+      <Button color="inherit" component={NavLink} to='/admin/signin'>Login</Button>
     )
   }
 }
