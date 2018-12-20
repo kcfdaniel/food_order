@@ -17,12 +17,14 @@ const PostSummary = ({post ,selected}) => {
       >
         {post.link ? <p><a href="#">{post.link}</a></p> : ""}
         <p className="grey-text datetime truncate">{moment(post.createAt).calendar()}</p>
+        <div className="transparent-cover">
+        </div>
         {selected ? 
-          <div className="cover">
-            <div className="cover-background">
+          <div className="selected-cover">
+            <div className="selected-cover-background">
             </div>
-            <Button floating className="blue cover-check-button">
-              <i className="material-icons cover-check">check</i>
+            <Button floating className="blue selected-cover-check-button">
+              <i className="material-icons selected-cover-check">check</i>
             </Button>
           </div>
           : ""
