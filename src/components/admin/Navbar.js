@@ -71,8 +71,6 @@ class Navbar extends React.Component {
 
   render(){
     const { auth, classes, history, signOut, selectMode, setSelectMode, selectedPostsIDs, deletePost} = this.props;
-    console.log("this.props:");
-    console.log(this.props);
     const links = auth.uid ? <SignedInLinks /> : <SignedOutLinks />;
 
     const drawer = (
@@ -170,7 +168,6 @@ Navbar.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-    console.log(state)
     return {
         auth: state.firebase.auth,
         selectMode: state.post.selectMode,

@@ -52,7 +52,7 @@ export const changeStudent = (studentID) => {
       })
     }
     else{
-      console.log("no meal records")
+      console.log("no next month meal records")
     }
     dispatch({type: 'GET_NEXT_MONTH_MEAL_RECORD', payload: mealRecords});
 
@@ -69,7 +69,7 @@ export const changeStudent = (studentID) => {
       })
     }
     else{
-      console.log("no meal records")
+      console.log("no next month meal records")
     }
     dispatch({type: 'GET_PREVIOUS_MONTH_MEAL_RECORD', payload: mealRecords});
 
@@ -90,7 +90,7 @@ export const changeStudent = (studentID) => {
       })
     }
     else{
-      console.log("no meal records")
+      console.log("no meal records 2 days after today")
     }
 
     //get meal records 5 days on or before today
@@ -106,7 +106,7 @@ export const changeStudent = (studentID) => {
       })
     }
     else{
-      console.log("no meal records")
+      console.log("no meal records 5 days on or before today")
     }
 
     dispatch({type: 'GET_RECENT_MEAL_RECORD', payload: mealRecords});

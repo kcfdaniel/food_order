@@ -4,21 +4,19 @@ import { connect } from 'react-redux'
 import { signOut } from '../../store/actions/authActions'
 
 const SignedInLinks = (props) => {
-  console.log(props);
-  const { profile, student } = props;
-  console.log(student);
+  const { student } = props;
   // console.log(profile.students ? profile.students[student.studentID].pictureURL : "");
   return (
   <div>
     <ul className="right">
       <li style={{lineHeight: 1, marginTop: 5}}>
         <NavLink to='/' className="center">
-          <img className='right-align btn-small btn-floating pink lighten-1' src={ student.pictureURL? student.pictureURL : "img/yuna.jpg"} />
+          <img alt="unable to load" className='right-align btn-small btn-floating pink lighten-1' src={ student.pictureURL? student.pictureURL : "img/yuna.jpg"} />
           <br/>
           <small className="truncate">
               {
-                student != {} ? 
-                  (student.nickname != "" ? 
+                student !== {} ? 
+                  (student.nickname !== "" ? 
                   student.nickname
                       : student.fullname
                   ) 
@@ -48,7 +46,6 @@ const SignedInLinks = (props) => {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state)
   return {
       profile: state.firebase.profile, 
       student: state.student

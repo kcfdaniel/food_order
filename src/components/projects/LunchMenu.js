@@ -69,8 +69,6 @@ class LunchMenu extends Component {
       }
     }, []) : [];
     if (!auth.uid) return <Redirect to='/signin' />
-    console.log(student)
-    console.log(nextMonthMealRecord)
     // allow select month
     // let months = []
     // for (let year in meals){
@@ -132,15 +130,12 @@ class LunchMenu extends Component {
                   for (let i = 0; i < allergies.length; i++) { 
                     if (ingredients.includes(allergies[i])){
                       enabled = false
-                      console.log("allergic!")
                       break
                     }
                   }
                   //END check allergies
                   
-                  console.log(ingredients)
                   let date = month.clone().add(day.day-1, 'day').format('YYYY-MM-DD')
-                  console.log(date)
 
                   return(
                     //variable "enable" (true/false) is just for UI referencing

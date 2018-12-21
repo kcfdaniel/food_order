@@ -82,10 +82,8 @@ class NavTabs extends React.Component {
     }
 
     render() {
-        const { history, classes } = this.props;
+        const { classes } = this.props;
         const { value } = this.state;
-        console.log("props:");
-        console.log(this.props);
         return (
             // material ui implementation
             <Tabs 

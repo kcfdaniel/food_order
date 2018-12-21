@@ -10,7 +10,7 @@ export const signIn = (credentials) => {
     const query = firestore.collection('families').where("username", "==", credentials.username);
     const snapshot = await query.get();
 
-    if(snapshot.docs.length == 0){
+    if(snapshot.docs.length === 0){
       let err = {
         message: "Wrong username!"
       }

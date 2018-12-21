@@ -19,7 +19,6 @@ class CreatePost extends Component {
     if(event!=null){
       let reader = new FileReader();
       let file = event.target.files[0];
-      console.log(event)
       reader.onloadend = () => {
         this.setState({
           pic: file,
@@ -33,7 +32,6 @@ class CreatePost extends Component {
   fileUploadHandler = e => {
     e.preventDefault();
     let error = ""
-    console.log(this.state)
     
     if (this.state.content == "") {
       error = "Empty content!"
@@ -101,7 +99,7 @@ class CreatePost extends Component {
           <PreviewPic picURL={this.state.picURL} />
           <div className="input-field col s12">
             <textarea id="content" className="materialize-textarea" onChange={this.textChangeHandler} value={this.state.content}></textarea>
-            <label for="textarea1">Content</label>
+            <label htmlFor="textarea1">Content</label>
           </div>
           <span className="pink-text"> {this.state.error} </span>
           <div className="input-field">

@@ -18,7 +18,6 @@ export const createPost = (post) => {
     await storage.ref(`post_pics/${picURL}`).put(pic);
     //uploadTask.on('state_changed')...
     const url = await storage.ref('post_pics').child(picURL).getDownloadURL();
-    console.log(url)
     const createAt = moment().format('YYYY-MM-DD hh:mm:ss');
     try{
       await firestore.collection('posts').add({
@@ -68,31 +67,6 @@ export const deletePost = (selectedPostsIDs) => {
       });
 
     })
-
-    // const targetPicURL = targetPost.
-    // const pic = post.pic
-    // const picURL = uuidv4() + "_" + Date.now() + "." + pic.name.split('.')[1]
-    // await storage.ref(`post_pics/${picURL}`).put(pic);
-    // //uploadTask.on('state_changed')...
-    // const url = await storage.ref('post_pics').child(picURL).getDownloadURL();
-    // console.log(url)
-    // try{
-    //   await firestore.collection('posts').add({
-    //     content: post.content,
-    //     createAt,
-    //     picURL: url,
-    //     title: post.title,
-    //   })
-    // } catch (err){
-    //   console.log(err)
-    //   if (err){
-    //     console.log(err)
-    //     dispatch({type: 'CREATE_POST_ERROR', err });
-    //     return err
-    //   }
-    // }
-    // dispatch({type: 'CREATE_POST', post });
-    // return
   }
 }
 

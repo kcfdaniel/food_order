@@ -13,7 +13,7 @@ class PostList extends Component {
       if (selectedPostsIDs.has(id)){
         deselectPost(id)
         selectedPostsIDs.delete(id)
-        if(selectedPostsIDs.size == 0){
+        if(selectedPostsIDs.size === 0){
           setSelectMode(false);
         }
       }

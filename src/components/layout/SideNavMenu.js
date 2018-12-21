@@ -18,22 +18,15 @@ const styles = theme => ({
 class SideNavMenu extends React.Component  {
   render(){
     const { student, auth, profile, signOut, changeStudent, menu, classes} = this.props;
-    console.log("profile:");
-    console.log(profile);
-    console.log(student.studentID);
     // console.log(profile.students ? profile.students[student.studentID] : "");
-    let options = profile.students ? Object.keys(profile.students).map((s) => <option selected={profile.students[s] == student.studentID ? true : false} value={profile.students[s]}>{s}</option>) : []
+    let options = profile.students ? Object.keys(profile.students).map((s) => <option selected={profile.students[s] == student.studentID ? true : false} value={profile.students[s]} key={profile.students[s]}>{s}</option>) : []
 
     function handleChangeStudent(_,value){
-      console.log(value)
       changeStudent(value);
     }
-
-    console.log(student.studentID)
-
     return (
       <SideNav
-          trigger={<i style={{"margin-left":"-10px" ,width:"50px"}} className="material-icons waves-effect center-align">menu</i>}
+          trigger={<i style={{marginLeft:"-10px" ,width:"50px"}} className="material-icons waves-effect center-align">menu</i>}
           // trigger={<a href="#">dfdf</a>}
           options={{ closeOnClick: true }}
           >
@@ -65,7 +58,6 @@ class SideNavMenu extends React.Component  {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state)
   return {
     student: state.student,
     auth: state.firebase.auth,

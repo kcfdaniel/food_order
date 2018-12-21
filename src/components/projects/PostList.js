@@ -3,14 +3,13 @@ import PostSummary from './PostSummary'
 import { Link } from 'react-router-dom'
 
 const PostList = ({posts}) => {
-  console.log(posts)
   return (
     <div className="project-list section">
       {/* if there are any projects at all, map */}
       {posts && posts.map(post => {
         return (
           // <Link to={'/project/' + project.id} key={project.id}>
-            <PostSummary post={post}/>
+            <PostSummary key={post.id} post={post}/>
           // </Link>
         )
       })}

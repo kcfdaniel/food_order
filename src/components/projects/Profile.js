@@ -11,9 +11,6 @@ class Profile extends Component {
   state = {
 
   }
-  constructor(props){
-    super(props);
-  }
 
   componentDidMount(){
     if(this.nicknameInput){
@@ -46,7 +43,7 @@ class Profile extends Component {
   }
 
   handleChange = (e) => {
-    if (e.target.name != "allergies"){
+    if (e.target.name !== "allergies"){
       this.setState({
         [e.target.id]: e.target.value
       })
@@ -68,7 +65,7 @@ class Profile extends Component {
     //
   }
   render() {
-    const { profile, student, auth, profile_pic_urls, previousMonthMealRecord } = this.props;
+    const { student, auth, profile_pic_urls, previousMonthMealRecord } = this.props;
     if (!auth.uid) return <Redirect to='/signin' />
     var settings = {
       dots: false,
@@ -102,10 +99,6 @@ class Profile extends Component {
         })
       }
     };
-    console.log("window.innerWidth: " + window.innerWidth);
-    console.log("studentID: " + student.studentID);
-    console.log(this.state);
-    console.log(previousMonthMealRecord)
     return (
       <div className="container">
         <form onSubmit={this.handleSubmit} className="white">

@@ -18,7 +18,6 @@ class Admin extends Component {
     const { history, profile } = this.props
 
     //A VERY HACKY WAY TO PREVENT REGULAR USER ACCESSING ADMIN PAGE
-    console.log(profile)
     if(!profile.isEmpty){
       history.push('/');
     }
