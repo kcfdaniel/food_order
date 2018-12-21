@@ -1,5 +1,8 @@
 const initState = {
-  mealError: null
+  mealError: null,
+  nextMonthMealRecord: [],
+  previousMonthMealRecord: [],
+  recentMealRecord: [],
 }
 
 const mealReducer = (state = initState, action) => {

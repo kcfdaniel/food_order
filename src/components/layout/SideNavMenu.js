@@ -61,7 +61,7 @@ class SideNavMenu extends React.Component  {
           <SideNavItem waves href><NavLink to='/signin'>Login</NavLink></SideNavItem>}
       </SideNav>
     )
-            }
+  }
 }
 
 const mapStateToProps = (state) => {

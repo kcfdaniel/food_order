@@ -7,29 +7,25 @@ import NavTabs from './NavTabs'
 import { connect } from 'react-redux'  
 
 const Navbar = (props) => {
-    const { auth, profile, history } = props;
-    console.log("props:");
-    console.log(props);
+    const { auth, history } = props;
     const links = auth.uid ? <SignedInLinks /> : <SignedOutLinks />;
     return (
-        history.location.pathname == "/admin" ? "" :(
-            <div>
-                <nav className="nav-extended wrapper green darken-1">
-                    <div className="nav-wrapper">
-                        <div className="container">
-                            <Link to='/' className="brand-logo center">Nutrition</Link>
-                            { links }
-                            <SideNavMenu/>
-                        </div>
+        <div>
+            <nav className="nav-extended wrapper green darken-1">
+                <div className="nav-wrapper">
+                    <div className="container">
+                        <Link to='/' className="brand-logo center">Nutrition</Link>
+                        { links }
+                        <SideNavMenu/>
                     </div>
-                    <div className="nav-content">
-                        <div className="container">
-                            <NavTabs history={history} />
-                        </div>
+                </div>
+                <div className="nav-content">
+                    <div className="container">
+                        <NavTabs history={history} />
                     </div>
-                </nav>
-            </div>
-        )
+                </div>
+            </nav>
+        </div>
     )
 }
 
@@ -37,7 +33,6 @@ const mapStateToProps = (state) => {
     console.log(state)
     return {
         auth: state.firebase.auth,
-        profile: state.firebase.profile
     }
 }
 

@@ -2,17 +2,13 @@ import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import {Button} from 'react-materialize'
-import ClickNHold from 'react-click-n-hold'; 
 import PostSummary from './PostSummary';
 import { selectPost, deselectPost, setSelectMode } from './store/actions/postActions'
 
 class PostList extends Component {
-  start(id){
-    console.log('START'); 
+  start = (e,id) => {
+    console.log('START');
     const {selectedPostsIDs, selectMode, setSelectMode, selectPost, deselectPost} = this.props
-    console.log(selectedPostsIDs)
-    console.log(id)
-    console.log(selectedPostsIDs.has(id))
     if(selectMode){
       if (selectedPostsIDs.has(id)){
         deselectPost(id)
@@ -25,42 +21,39 @@ class PostList extends Component {
         selectPost(id)
       }
     }
-  } 
-  end(e, enough){
+    this.longPressTimer = setTimeout(() => {
+      console.log("long press")
+      const {selectPost, setSelectMode} = this.props
+      selectPost(id)
+      setSelectMode(true);
+    }, 500);
+  }
+  end = (e) => {
 		console.log('END');
-        console.log(enough ? 'Click released after enough time': 'Click released too soon');            
+    clearTimeout(this.longPressTimer);
+    e.preventDefault();
 	} 
-  clickNHold(id){
-    console.log(id);
-    const {selectedPostsIDs, selectPost, setSelectMode} = this.props
-    selectPost(id)
-    setSelectMode(true);
-  } 
   
   render() {
-    const {history, posts, auth, selectedPostsIDs} = this.props;
+    const {history, posts, auth, selectedPostsIDs, selectMode} = this.props;
     if (!auth.uid) return <Redirect to='/admin/signin' />
     return (
-      <div className="container" style={{"margin-top": "10px"}}>
+      <div className="container" style={{"marginTop": "10px"}}>
         <div className="row">
           {posts ? posts.map(post => {
               // <Input id={post.id} onChange={this.handleChange} name='posts' type='checkbox' value={post.title} label={post.title} className='filled-in'/>
             const id = post.id
             let selected = selectedPostsIDs.has(id)
-            return <ClickNHold 
-              time={0.5}
-              onStart={()=>{this.start(id)}}
-              onClickNHold={() => this.clickNHold(id)}
-              onEnd={this.end}
-              id >
-                <div className="col s6" style={{padding:"1px"}}>
-                  <PostSummary post={post} selected={selected}/>
-                </div>
-            </ClickNHold>
+            return (
+              //all the onTouchStart, onxxxxx are for mobile to work
+              <div className="col s6" key={id} style={{padding:"1px"}} onContextMenu={(e)=>{e.preventDefault();}} onTouchStart={(e)=>this.start(e,id)} onTouchEnd={this.end} onMouseDown={(e)=>this.start(e,id)} onMouseUp={this.end}>
+                <PostSummary post={post} selected={selected}/>
+              </div>
+            )
             }) : ""
           }
         </div>
-        <Button waves='light' floating icon='add' className='red create-post' large style={{bottom: '45px', right: '24px'}} onClick={()=>{history.push('/admin/create-post')}} />
+        {selectMode ? "" : <Button waves='light' floating icon='add' className='red create-post' large style={{bottom: '45px', right: '24px'}} onClick={()=>{history.push('/admin/create-post')}} />}
       </div>
     )
   }

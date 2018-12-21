@@ -3,30 +3,23 @@ import { Link } from 'react-router-dom'
 import SignedInLinks from './SignedInLinks'
 import SignedOutLinks from './SignedOutLinks'
 import { connect } from 'react-redux'  
-// import SideNavMenu from './SideNavMenu'
-// import {IconButton, Hidden, Drawer, List, Divider, ListItem, ListItemIcon, ListItemText} from '@material-ui/core';
-// import {Menu, Mail, Inbox} from '@material-ui/icons/Menu';
 import PropTypes from 'prop-types';
-// import { withStyles } from '@material-ui/core/styles';
-// import React from 'react';
-// import PropTypes from 'prop-types';
-import AppBar from '@material-ui/core/AppBar';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Divider from '@material-ui/core/Divider';
-import Drawer from '@material-ui/core/Drawer';
-import Hidden from '@material-ui/core/Hidden';
-import IconButton from '@material-ui/core/IconButton';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import MailIcon from '@material-ui/icons/Mail';
-import MenuIcon from '@material-ui/icons/Menu';
-import DeleteIcon from '@material-ui/icons/Delete';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
+import { ArrowBack as ArrowBackIcon,
+        Delete as DeleteIcon,
+        Menu as MenuIcon,
+        Mail as MailIcon,
+        Inbox as InboxIcon } from '@material-ui/icons';
+import { AppBar, 
+        CssBaseline, 
+        Divider, 
+        Drawer, 
+        Hidden, 
+        IconButton, 
+        List, ListItem, 
+        ListItemIcon, 
+        ListItemText, 
+        Toolbar, 
+        Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import { signOut } from './store/actions/authActions'
 import { setSelectMode, deletePost } from './store/actions/postActions'
@@ -35,13 +28,25 @@ const styles = {
   root: {
     flexGrow: 1,
   },
-  grow: {
+  title: {
     flexGrow: 1,
-    align: "center",
+    left: 0,
+    right: 0,
+    marginLeft: "auto",
+    marginRight: "auto",
+    position: "absolute",
+    "z-index": 0,
+  },
+  grow: {
+    flexGrow: 1
+  },
+  arrowBackButton: {
+    "zIndex": "1",
   },
   menuButton: {
     marginLeft: -12,
     marginRight: 20,
+    "zIndex": "1",
   },
   list: {
     width: 250,
@@ -108,7 +113,7 @@ class Navbar extends React.Component {
                 onClick={() => {setSelectMode(false)}}
                 className={classes.arrowBackButton}
               >
-                <ArrowBackIcon />
+                <ArrowBackIcon className={classes.arrowBackIcon}/>
               </IconButton>
               <span className="number-of-selected-posts">{selectedPostsIDs.size}</span>
               <Typography variant="h6" color="inherit" className={classes.grow}>
@@ -142,9 +147,10 @@ class Navbar extends React.Component {
                 </IconButton>
                 : ""
               }
-              <Typography variant="h6" color="inherit" className={(classes.grow)} align='center'>
+              <Typography variant="h6" color="inherit" className={(classes.title)} align='center'>
                 Admin
               </Typography>
+              <div className={classes.grow}></div>
               {/* <Link to='/admin' className="brand-logo center">Admin</Link> */}
               { links }
             </Toolbar>

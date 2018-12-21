@@ -55,6 +55,7 @@ class Photos extends Component {
                         </div>
                       }
                     >
+              {/* expanded content */}
               <img className='' height="240" width="240" src={ mealRecord.picURLs[mealRecord.picURLs.length - 1] ? mealRecord.picURLs[mealRecord.picURLs.length - 1] : "img/yuna.jpg"} />
               <CompletenessSlider name="fruitsCompleteness" value={fruitsCompleteness} handleChange={(event,value) => this.handleChange(event,value, "fruitsCompleteness")}/>
               <CompletenessSlider name="grainsCompleteness" value={grainsCompleteness} handleChange={(event,value) => this.handleChange(event,value, "grainsCompleteness")}/>

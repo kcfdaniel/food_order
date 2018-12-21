@@ -11,7 +11,12 @@ import { firestoreConnect } from 'react-redux-firebase'
 
 class LunchMenu extends Component {
   state = {
-
+    "s034963_20-12-2018" : {
+      choice: "A"},
+    "s034963_21-12-2018" : {
+      choice: "B"},
+    "s034963_22-12-2018" : {
+      choice: "C"},
   }
   componentWillMount(){
 
@@ -27,7 +32,6 @@ class LunchMenu extends Component {
       console.log(date)
       let studentID = this.props.student.studentID
       this.setState({
-        ...this.state,
         [studentID + "_" + date]: {...choice,
                 studentID,
                 date,
@@ -110,6 +114,7 @@ class LunchMenu extends Component {
               <b>{day.day}</b>
               <Collection>
                 {day.choices.map(choice => {
+                  //ingredients from associative array to array
                   const ingredients = choice.ingredients ? Object.keys(choice.ingredients).reduce((previous, key) => {
                     if (choice.ingredients[key]){
                       previous.push(key)
@@ -119,8 +124,11 @@ class LunchMenu extends Component {
                       return previous
                     }
                   }, []) : [];
+                  //END ingredients from associative array to array
+
                   var enabled = true
 
+                  //check allergies
                   for (let i = 0; i < allergies.length; i++) { 
                     if (ingredients.includes(allergies[i])){
                       enabled = false
@@ -128,12 +136,16 @@ class LunchMenu extends Component {
                       break
                     }
                   }
+                  //END check allergies
+                  
                   console.log(ingredients)
                   let date = month.clone().add(day.day-1, 'day').format('YYYY-MM-DD')
                   console.log(date)
+
                   return(
+                    //variable "enable" (true/false) is just for UI referencing
                     <CollectionItem href={enabled}
-                      active={enabled ? (this.state[studentID + "_" + date] ? this.state[studentID + "_" + date].choice == choice.choice : false ) : false}  
+                      active={enabled ? (this.state[studentID + "_" + date] ? this.state[studentID + "_" + date].choice == choice.choice : false ) : false}
                       onClick={enabled ? (() => this.handleSelectMeal(day.day, choice)) : () => {}}>
                       {choice.choice}: {choice.name}
                     </CollectionItem>
