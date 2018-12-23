@@ -19,12 +19,14 @@ import { AppBar,
         ListItemIcon, 
         ListItemText, 
         Toolbar, 
-        Typography } from '@material-ui/core';
+        Typography,
+        Modal,
+        Button, } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import { signOut } from './store/actions/authActions'
-import { setSelectMode, deletePost } from './store/actions/postActions'
+import { setSelectMode, deletePosts } from './store/actions/postActions'
 
-const styles = {
+const styles = (theme) => ({
   root: {
     flexGrow: 1,
   },
@@ -58,20 +60,41 @@ const styles = {
     backgroundColor: "#000000",
     color: "#000000",
   },
-};
+  toolbar: theme.mixins.toolbar,
+  modal: {
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    position: 'absolute',
+    width: theme.spacing.unit * 30,
+    maxWidth: "100%",
+    backgroundColor: theme.palette.background.paper,
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing.unit * 4,
+  },
+});
 
 class Navbar extends React.Component {
   state = {
     sideNavOpen: false,
+    confirmationOpen: false,
   };
 
   handleDrawerToggle = () => {
     this.setState(state => ({ sideNavOpen: !state.sideNavOpen }));
   };
 
+  handleConfirmationOpen = () => {
+    this.setState({ confirmationOpen: true });
+  };
+
+  handleConfirmationClose = () => {
+    this.setState({ confirmationOpen: false });
+  };
+
   render(){
-    const { auth, classes, history, signOut, selectMode, setSelectMode, selectedPostsIDs, deletePost} = this.props;
-    const links = auth.uid ? <SignedInLinks /> : <SignedOutLinks />;
+    const { auth, classes, history, signOut, selectMode, setSelectMode, selectedPostsIDs, deletePosts} = this.props;
+    const links = auth.uid ? <SignedInLinks history={history}/> : <SignedOutLinks />;
 
     const drawer = (
       <div>
@@ -104,7 +127,7 @@ class Navbar extends React.Component {
     return (
       selectMode ? (
         <div className={classes.root}>
-          <AppBar position="static" className="orange darken-1">
+          <AppBar position="fixed" className="orange darken-1">
             <Toolbar>
               <IconButton
                 color="inherit"
@@ -120,19 +143,41 @@ class Navbar extends React.Component {
               <IconButton
                 color="inherit"
                 onClick={() => {
-                  deletePost(selectedPostsIDs);
-                  setSelectMode(false);
+                  this.handleConfirmationOpen();
                 }}
                 className={classes.deleteButton}
               >
                 <DeleteIcon />
               </IconButton>
+              <Modal
+                aria-labelledby="simple-modal-title"
+                aria-describedby="simple-modal-description"
+                open={this.state.confirmationOpen}
+                onClose={this.handleConfirmationClose}
+              >
+                <div className={classes.modal}>
+                  <Typography variant="subtitle1" id="simple-modal-description">
+                    {selectedPostsIDs.size == 1 ? "Delete post?" : "Delete items?"}
+                  </Typography>
+                  <div className="right-align">
+                    <Button onClick={this.handleConfirmationClose}>CANCEL</Button>
+                    <Button onClick={()=>{
+                      deletePosts(selectedPostsIDs);
+                      setSelectMode(false);
+                      this.handleConfirmationClose();}}
+                    >
+                      DELETE
+                    </Button>
+                  </div>
+                </div>
+              </Modal>
             </Toolbar>
           </AppBar>
+          <div className={classes.toolbar} />
         </div>
       ) :
         <div>
-        <AppBar position="static" className="green darken-1" >
+        <AppBar position="fixed" className="green darken-1" >
           <Toolbar>
               {auth.uid ? 
                 <IconButton
@@ -158,6 +203,7 @@ class Navbar extends React.Component {
               {drawer}
             </Drawer>
           </Hidden>
+          <div className={classes.toolbar} />
         </div>
     )
   }
@@ -180,7 +226,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     signOut: () => dispatch(signOut()),
     setSelectMode: (selectMode) => dispatch(setSelectMode(selectMode)),
-    deletePost: (selectMode) => dispatch(deletePost(selectMode)),
+    deletePosts: (selectMode) => dispatch(deletePosts(selectMode)),
   }
 }
 

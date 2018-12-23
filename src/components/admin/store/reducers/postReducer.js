@@ -27,6 +27,12 @@ const postReducer = (state = initState, action) => {
         ...state,
         selectedPostsIDs,
       }
+    case 'SELECT_ALL_POSTS':
+      console.log('select all posts', action.payload);
+      return {
+        ...state,
+        selectedPostsIDs: new Set(action.payload)
+      }
     case 'DESELECT_POST':
       console.log('deselect post', action.postID);
       postID = action.postID;

@@ -39,7 +39,7 @@ export const createPost = (post) => {
   }
 }
 
-export const deletePost = (selectedPostsIDs) => {
+export const deletePosts = (selectedPostsIDs) => {
   return async (dispatch, getState, { getFirebase, getFirestore }) => {
     //make async call to database
     const firebase = getFirebase();
@@ -70,10 +70,17 @@ export const deletePost = (selectedPostsIDs) => {
   }
 }
 
-
 export const selectPost = (postID) => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
     dispatch({type: 'SELECT_POST', postID });
+  }
+}
+export const selectAllPosts = () => {
+  return (dispatch, getState, { getFirebase, getFirestore }) => {
+    const state = getState();
+    const posts = state.firestore.ordered.posts;
+    const postsIDs = posts.map(post => post.id)
+    dispatch({type: 'SELECT_ALL_POSTS', payload: postsIDs });
   }
 }
 
