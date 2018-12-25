@@ -83,9 +83,7 @@ class EditPost extends Component {
     if ((this.state.videoURL == null || this.state.videoURL == "") && (this.state.picURL == null || this.state.picURL == "")) {
       error = "You have to select either a video or an image!"
     }
-    if ((this.state.videoURL != null || this.state.videoURL != "") && (this.state.picURL != null || this.state.picURL != "")) {
-      console.log(this.state.videoURL)
-      console.log(this.state.picURL)
+    if ((this.state.videoURL != null && this.state.videoURL != "") && (this.state.picURL != null && this.state.picURL != "")) {
       error = "You can only select a video or an image!"
     }
     if (this.state.title == "") {
