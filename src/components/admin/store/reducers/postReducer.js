@@ -1,5 +1,6 @@
 const initState = {
   createPostError: null,
+  updatePostError: null,
   selectedPostsIDs: new Set(),
   selectMode: false,
 }
@@ -53,6 +54,18 @@ const postReducer = (state = initState, action) => {
         ...state,
         selectMode,
         selectedPostsIDs
+      }
+    case 'UPDATE_POST':
+      console.log('update post', action.payload);
+      return {
+        ...state,
+        updatePostError: ""
+      }
+    case 'UPDATE_POST_ERROR':
+      console.log('update post error', action.err);
+      return {
+        ...state,
+        updatePostError: action.err
       }
     default:
       return state;

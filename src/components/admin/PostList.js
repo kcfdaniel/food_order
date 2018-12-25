@@ -13,9 +13,6 @@ class PostList extends Component {
       if (selectedPostsIDs.has(id)){
         deselectPost(id)
         selectedPostsIDs.delete(id)
-        if(selectedPostsIDs.size === 0){
-          setSelectMode(false);
-        }
       }
       else{
         selectPost(id)
@@ -28,8 +25,15 @@ class PostList extends Component {
       setSelectMode(true);
     }, 500);
   }
-  end = (e) => {
-		console.log('END');
+  end = (e, id) => {
+    console.log('END');
+    const {history, selectMode, selectedPostsIDs, setSelectMode} = this.props;
+    if(!selectMode){
+      history.push("/admin/edit-post/" + id)
+    }
+    if(selectedPostsIDs.size === 0){
+      setSelectMode(false);
+    }
     clearTimeout(this.longPressTimer);
     e.preventDefault();
 	} 
@@ -46,7 +50,7 @@ class PostList extends Component {
             let selected = selectedPostsIDs.has(id)
             return (
               //all the onTouchStart, onxxxxx are for mobile to work
-              <div className="col s6" key={id} style={{padding:"1px"}} onContextMenu={(e)=>{e.preventDefault();}} onTouchStart={(e)=>this.start(e,id)} onTouchEnd={this.end} onMouseDown={(e)=>this.start(e,id)} onMouseUp={this.end}>
+              <div className="col s6" key={id} style={{padding:"1px"}} onContextMenu={(e)=>{e.preventDefault();}} onTouchStart={(e)=>this.start(e,id)} onTouchEnd={(e)=>this.end(e,id)} onMouseDown={(e)=>this.start(e,id)} onMouseUp={(e)=>this.end(e,id)}>
                 <PostSummary post={post} selected={selected}/>
               </div>
             )

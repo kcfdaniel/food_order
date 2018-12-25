@@ -15,7 +15,7 @@ class App extends Component {
     return (
       <BrowserRouter>
         <div className="App">
-        <Route path={new RegExp("^(?!.*(/admin)).*$")} component={Navbar} />
+        <Route path='/' component={Navbar} />
           <Switch> 
             <Route exact path='/' component={HomePage} />
             <Route path='/profile' component={Profile} />

@@ -3,16 +3,27 @@ import moment from 'moment'
 import { Card, CardTitle, Button } from 'react-materialize'
 
 const PostSummary = ({post ,selected}) => {
+  let header = ""
+
+  //if post has video, render video
+  if(post.videoURL == "" || post.videoURL == null) {
+    header = (<CardTitle style={{height:"100px", overflow: "hidden"}} image={post.picURL}/>)
+  }
+  //if post doesn't have video, then render the image
+  else{
+    header = 
+      (<video height="95px" width="100%">
+        <source src={post.videoURL} id="video_here"/>
+          Your browser does not support HTML5 video.
+      </video>)
+  }
   return (
     <div>
       <Card
         className="s"
-        header={
-          <CardTitle style={{height:"100px", overflow: "hidden"}} 
-          image={post.picURL}/>
-        }
+        header={header}
         title={post.title}
-        // reveal={<p>{post.content}</p>}
+        reveal={<p>{post.content}</p>}
         style={{margin:"0px"}}
       >
         {post.link ? <p><a href="#">{post.link}</a></p> : ""}

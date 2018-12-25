@@ -8,6 +8,9 @@ import { connect } from 'react-redux'
 
 const Navbar = (props) => {
     const { auth, history } = props;
+    if(history.location.pathname.startsWith("/admin")){
+        return ""
+    }
     const links = auth.uid ? <SignedInLinks /> : <SignedOutLinks />;
     return (
         <div>

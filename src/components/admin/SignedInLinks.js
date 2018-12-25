@@ -25,7 +25,7 @@ class SignedInLinks extends Component {
     const { history, selectAllPosts, setSelectMode } = this.props;
     let links = ""
     let renderMenu = ""
-    if(history.location.pathname= "/admin/post-list"){
+    if(history.location.pathname == "/admin/posts"){
       links = (<IconButton aria-haspopup="true" onClick={this.handleMenuOpen} color="inherit">
                 <MoreIcon />
               </IconButton>

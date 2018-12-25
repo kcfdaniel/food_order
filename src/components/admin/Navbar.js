@@ -101,7 +101,7 @@ class Navbar extends React.Component {
         <div className={classes.toolbar} />
         <Divider />
         <List>
-          <ListItem button key="posts" onClick={() => {this.handleDrawerToggle(); history.push('/admin/post-list');}}>
+          <ListItem button key="posts" onClick={() => {this.handleDrawerToggle(); history.push('/admin/posts');}}>
             <ListItemIcon><InboxIcon /></ListItemIcon>
             <ListItemText primary="posts" />
           </ListItem>

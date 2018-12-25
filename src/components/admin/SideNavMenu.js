@@ -15,7 +15,7 @@ class SideNavMenu extends Component {
         options={{ closeOnClick: true }}
         >
         <SideNavItem subheader>Sections</SideNavItem>
-        <SideNavItem href="/#/admin/post-list" icon='subject'>Posts</SideNavItem>
+        <SideNavItem href="/#/admin/posts" icon='subject'>Posts</SideNavItem>
         <SideNavItem divider />
         <SideNavItem subheader>Account</SideNavItem>
         <SideNavItem waves href onClick={signOut}>Log Out</SideNavItem>

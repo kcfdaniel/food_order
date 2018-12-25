@@ -8,6 +8,7 @@ import Dashboard from './Dashboard'
 import CreatePost from './CreatePost'
 import PostList from './PostList'
 import SignIn from './SignIn'
+import EditPost from './EditPost'
 
 class Admin extends Component {
   state = {
@@ -28,10 +29,11 @@ class Admin extends Component {
         <Route path='/admin' render={(props)=><Navbar {...props}/>} />
           <Switch> 
             <Route exact path='/admin' component={Dashboard} />
+            <Route path='/admin/posts' component={PostList} />
             <Route path='/admin/create-post' component={CreatePost} />
-            <Route path='/admin/post-list' component={PostList} />
             {/* <Route path='/project/:id' component={ProjectDetails} /> */}
             <Route path='/admin/signin' component={SignIn} />
+            <Route path='/admin/edit-post/:id' component={EditPost} />
             {/* <Route path='/signup' component={SignUp} /> */}
           </Switch>
         </div>
