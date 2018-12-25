@@ -27,7 +27,7 @@ class SignedInLinks extends Component {
     //trigger re-render when user navigate to posts, because change in history.location.pathname can't be detected, thus won't automatically trigger render()
     history.listen( location =>  {
       if(location.pathname == "/admin/posts"){
-        this.setState(this.state);
+        this.setState(this.state); 
       }
     });
     let links = ""
