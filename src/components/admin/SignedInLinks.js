@@ -23,6 +23,13 @@ class SignedInLinks extends Component {
     const { moreAnchorEl } = this.state;
     const isMenuOpen = Boolean(moreAnchorEl);
     const { history, selectAllPosts, setSelectMode } = this.props;
+
+    //trigger re-render when user navigate to posts, because change in history.location.pathname can't be detected, thus won't automatically trigger render()
+    history.listen( location =>  {
+      if(location.pathname == "/admin/posts"){
+        this.setState(this.state);
+      }
+    });
     let links = ""
     let renderMenu = ""
     if(history.location.pathname == "/admin/posts"){

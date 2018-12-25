@@ -62,6 +62,8 @@ button:focus{
   background-color:#FFFFFF;
 }
 
+
+/* admin page posts */
 .s .card-content .card-title{
   font-size: 15px;
   line-height: 15px;
@@ -142,3 +144,34 @@ button.create-post{
   opacity: 0;
   bottom: 0;
 }
+
+/* client page posts */
+.post .card-content{
+  padding-top: 0;
+}
+
+.reaction{
+  z-index: 1;
+  cursor: pointer;
+  width: 100px;
+  border-style: solid;
+  border-color: coral;
+}
+
+.clampContent{
+  white-space: pre-wrap;
+  /* height: 100px; */
+  width: 100%;
+  /* autoprefixer: ignore next */
+  -webkit-box-orient: vertical !important;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+
+/* .post-content p {
+  -webkit-box-orient: vertical !important;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+} */
