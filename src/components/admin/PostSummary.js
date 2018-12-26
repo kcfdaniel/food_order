@@ -23,7 +23,6 @@ const PostSummary = ({post ,selected}) => {
         className="s"
         header={header}
         title={post.title}
-        reveal={<p>{post.content}</p>}
         style={{margin:"0px"}}
       >
         {post.link ? <p><a href="#">{post.link}</a></p> : ""}

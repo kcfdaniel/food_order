@@ -4,9 +4,9 @@ import PreviewPic from './PreviewPic'
 import PreviewVideo from './PreviewVideo'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { createPost } from './store/actions/postActions'
+import { createGeneralPost } from './store/actions/postActions'
 
-class CreatePost extends Component {
+class CreateGeneralPost extends Component {
   state = {
     picURL: null,
     pic: null,
@@ -100,8 +100,7 @@ class CreatePost extends Component {
       uploading: true
     });
 
-    // console.log(this.props.createPost(this.state))
-    this.props.createPost(this.state).then((err)=>{
+    this.props.createGeneralPost(this.state).then((err)=>{
       if(err == null){
         window.Materialize.toast('Created a new post: ' + this.state.title, 10000)
         this.setState({
@@ -117,7 +116,7 @@ class CreatePost extends Component {
         this.imageFileInput.value = [];
         this.videoFileInput.value = [];
         this.form.reset();
-        this.props.history.push('/admin/posts');
+        this.props.history.push('/admin/general');
       }
       window.Materialize.toast(err, 10000)
     })
@@ -148,7 +147,7 @@ class CreatePost extends Component {
   }
 
   cancel = () => {
-    this.props.history.push('/admin/posts');
+    this.props.history.push('/admin/general');
   }
 
   render() {
@@ -230,8 +229,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    createPost: (post) => dispatch(createPost(post)),
+    createGeneralPost: (post) => dispatch(createGeneralPost(post)),
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreatePost);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateGeneralPost);

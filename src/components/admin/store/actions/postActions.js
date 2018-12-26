@@ -7,7 +7,7 @@ function uuidv4() {
   });
 }
 
-export const createPost = (post) => {
+export const createGeneralPost = (post) => {
   return async (dispatch, getState, { getFirebase, getFirestore }) => {
     //make async call to database
     const firebase = getFirebase();
@@ -35,7 +35,7 @@ export const createPost = (post) => {
     //uploadTask.on('state_changed')...
     const createAt = moment().format('YYYY-MM-DD HH:mm:ss');
     try{
-      await firestore.collection('posts').add({
+      await firestore.collection('generalPosts').add({
         content: post.content,
         createAt,
         picURL,
@@ -55,28 +55,47 @@ export const createPost = (post) => {
   }
 }
 
-export const deletePosts = (selectedPostsIDs) => {
+export const deleteGeneralPosts = (selectedPostsIDs) => {
   return async (dispatch, getState, { getFirebase, getFirestore }) => {
     //make async call to database
     const firebase = getFirebase();
     const firestore = getFirestore();
     const storage = firebase.storage();
     const state = getState();
-    const posts = state.firestore.ordered.posts
+    console.log(selectedPostsIDs)
+    const generalPosts = state.firestore.ordered.generalPosts
     let targetPost = {}
     let picURL = ""
     let picRef = ""
+    let videoURL = ""
+    let videoRef = ""
     selectedPostsIDs.forEach((postID)=>{
-      targetPost = posts.find(post => post.id == postID);
+      targetPost = generalPosts.find(post => post.id == postID);
+
+      //try to delete its pic
       picURL = targetPost.picURL;
-      picRef = storage.refFromURL(picURL);
-      // Delete the file
-      picRef.delete().then(function() {
-        // File deleted successfully
-      }).catch(function(error) {
-        // Uh-oh, an error occurred!
-      });
-      firestore.collection("posts").doc(postID).delete().then(function() {
+      if(picURL){
+        picRef = storage.refFromURL(picURL);
+        // Delete the file
+        picRef.delete().then(function() {
+          // File deleted successfully
+        }).catch(function(error) {
+          // Uh-oh, an error occurred!
+        });
+      }
+
+      //try to delete its video
+      videoURL = targetPost.videoURL;
+      if(videoURL){
+        videoRef = storage.refFromURL(videoURL);
+        // Delete the file
+        videoRef.delete().then(function() {
+          // File deleted successfully
+        }).catch(function(error) {
+          // Uh-oh, an error occurred!
+        });
+      }
+      firestore.collection("generalPosts").doc(postID).delete().then(function() {
         console.log("Document successfully deleted!");
       }).catch(function(error) {
           console.error("Error removing document: ", error);
@@ -170,12 +189,15 @@ export const selectPost = (postID) => {
     dispatch({type: 'SELECT_POST', postID });
   }
 }
-export const selectAllPosts = () => {
+export const selectAllGeneralPosts = () => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
     const state = getState();
-    const posts = state.firestore.ordered.posts;
-    const postsIDs = posts.map(post => post.id)
-    dispatch({type: 'SELECT_ALL_POSTS', payload: postsIDs });
+    const generalPosts = state.firestore.ordered.generalPosts;
+    let postsIDs = []
+    if (generalPosts){
+      postsIDs = generalPosts.map(post => post.id)
+    }
+    dispatch({type: 'SELECT_ALL_GENERAL_POSTS', payload: postsIDs });
   }
 }
 

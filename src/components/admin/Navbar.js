@@ -24,7 +24,7 @@ import { AppBar,
         Button, } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import { signOut } from './store/actions/authActions'
-import { setSelectMode, deletePosts } from './store/actions/postActions'
+import { setSelectMode, deleteGeneralPosts } from './store/actions/postActions'
 
 const styles = (theme) => ({
   root: {
@@ -93,7 +93,7 @@ class Navbar extends React.Component {
   };
 
   render(){
-    const { auth, classes, history, signOut, selectMode, setSelectMode, selectedPostsIDs, deletePosts} = this.props;
+    const { auth, classes, history, signOut, selectMode, setSelectMode, selectedPostsIDs, deleteGeneralPosts} = this.props;
     const links = auth.uid ? <SignedInLinks history={history}/> : <SignedOutLinks />;
 
     const drawer = (
@@ -101,9 +101,9 @@ class Navbar extends React.Component {
         <div className={classes.toolbar} />
         <Divider />
         <List>
-          <ListItem button key="posts" onClick={() => {this.handleDrawerToggle(); history.push('/admin/posts');}}>
+          <ListItem button key="general" onClick={() => {this.handleDrawerToggle(); history.push('/admin/general');}}>
             <ListItemIcon><InboxIcon /></ListItemIcon>
-            <ListItemText primary="posts" />
+            <ListItemText primary="general" />
           </ListItem>
           <ListItem button key="health" onClick={() => {this.handleDrawerToggle(); history.push('/admin/health');}}>
             <ListItemIcon><InboxIcon /></ListItemIcon>
@@ -162,7 +162,7 @@ class Navbar extends React.Component {
                   <div className="right-align">
                     <Button onClick={this.handleConfirmationClose}>CANCEL</Button>
                     <Button onClick={()=>{
-                      deletePosts(selectedPostsIDs);
+                      deleteGeneralPosts(selectedPostsIDs);
                       setSelectMode(false);
                       this.handleConfirmationClose();}}
                     >
@@ -226,7 +226,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     signOut: () => dispatch(signOut()),
     setSelectMode: (selectMode) => dispatch(setSelectMode(selectMode)),
-    deletePosts: (selectMode) => dispatch(deletePosts(selectMode)),
+    deleteGeneralPosts: (selectMode) => dispatch(deleteGeneralPosts(selectMode)),
   }
 }
 

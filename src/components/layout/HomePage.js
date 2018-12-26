@@ -12,7 +12,7 @@ class HomePage extends Component {
     // if (!auth.uid) return <Redirect to='/signin' />
     return(
       <Tabs className='tabs transparent indicator orange'>
-        <Tab className='tab' title="Posts" active><Dashboard /></Tab>
+        <Tab className='tab' title="General" active><Dashboard /></Tab>
         <Tab title="Health">Health</Tab>
         <Tab title="News">News</Tab>
         {/* <Tab title="Test 4">Test 4</Tab> */}
@@ -23,7 +23,7 @@ class HomePage extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    // posts: state.firestore.ordered.posts,
+    // posts: state.firestore.ordered.generalPosts,
     // auth: state.firebase.auth,
     // notifications: state.firestore.ordered.notifications
   }

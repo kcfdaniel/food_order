@@ -28,7 +28,7 @@ const postReducer = (state = initState, action) => {
         ...state,
         selectedPostsIDs,
       }
-    case 'SELECT_ALL_POSTS':
+    case 'SELECT_ALL_GENERAL_POSTS':
       console.log('select all posts', action.payload);
       return {
         ...state,

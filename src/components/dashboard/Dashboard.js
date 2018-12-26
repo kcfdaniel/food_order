@@ -9,8 +9,8 @@ import { Redirect } from 'react-router-dom'
 class Dashboard extends Component {
   render(){
     // console.log(this.props);
-    const { posts } = this.props;
-    console.log(posts)
+    const { generalPosts } = this.props;
+    console.log(generalPosts)
     // if (!auth.uid) return <Redirect to='/signin' />
 
     return(
@@ -18,7 +18,7 @@ class Dashboard extends Component {
         <div className="row">
           <div className="col s12 m12">
             {/* <postList posts={posts}/> */}
-            <PostList posts={posts}/>
+            <PostList posts={generalPosts}/>
           </div>
           {/* <div className="col s12 m5 offset-m1">
             <Notifications notifications={notifications}/>
@@ -32,7 +32,7 @@ class Dashboard extends Component {
 const mapStateToProps = (state) => {
   return {
     // auth: state.firebase.auth,
-    posts: state.firestore.ordered.posts,
+    generalPosts: state.firestore.ordered.generalPosts,
     // notifications: state.firestore.ordered.notifications
   }
 }
@@ -41,7 +41,7 @@ export default compose(
   connect(mapStateToProps),
   // when the posts collections updates in firestore, it will automatically trigger the firestore reducer
   firestoreConnect([
-    { collection: 'posts', orderBy: ['createAt', 'desc']},
+    { collection: 'generalPosts', orderBy: ['createAt', 'desc']},
     // { collection: 'notifications', limit: 3, orderBy: ['time', 'desc']},
   ])
 )(Dashboard)

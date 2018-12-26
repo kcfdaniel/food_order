@@ -3,7 +3,7 @@ import { MoreVert as MoreIcon, } from '@material-ui/icons';
 import { IconButton,
           MenuItem,
           Menu, } from '@material-ui/core';
-import { selectAllPosts, setSelectMode } from './store/actions/postActions'
+import { selectAllGeneralPosts, setSelectMode } from './store/actions/postActions'
 import { connect } from 'react-redux'
 
 class SignedInLinks extends Component {
@@ -22,17 +22,17 @@ class SignedInLinks extends Component {
   render() {
     const { moreAnchorEl } = this.state;
     const isMenuOpen = Boolean(moreAnchorEl);
-    const { history, selectAllPosts, setSelectMode } = this.props;
+    const { history, selectAllGeneralPosts, setSelectMode } = this.props;
 
     //trigger re-render when user navigate to posts, because change in history.location.pathname can't be detected, thus won't automatically trigger render()
     history.listen( location =>  {
-      if(location.pathname == "/admin/posts"){
+      if(location.pathname == "/admin/general"){
         this.setState(this.state); 
       }
     });
     let links = ""
     let renderMenu = ""
-    if(history.location.pathname == "/admin/posts"){
+    if(history.location.pathname == "/admin/general"){
       links = (<IconButton aria-haspopup="true" onClick={this.handleMenuOpen} color="inherit">
                 <MoreIcon />
               </IconButton>
@@ -46,7 +46,7 @@ class SignedInLinks extends Component {
           open={isMenuOpen}
           onClose={this.handleMenuClose}
         >
-          <MenuItem onClick={() => {selectAllPosts(); this.handleMenuClose(); setSelectMode(true);}}>
+          <MenuItem onClick={() => {selectAllGeneralPosts(); this.handleMenuClose(); setSelectMode(true);}}>
             <p>Select All</p>
           </MenuItem>
         </Menu>
@@ -69,7 +69,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    selectAllPosts: () => dispatch(selectAllPosts()),
+    selectAllGeneralPosts: () => dispatch(selectAllGeneralPosts()),
     setSelectMode: (selectMode) => dispatch(setSelectMode(selectMode)),
   }
 }

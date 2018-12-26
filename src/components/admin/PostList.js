@@ -39,12 +39,12 @@ class PostList extends Component {
 	} 
   
   render() {
-    const {history, posts, auth, selectedPostsIDs, selectMode} = this.props;
+    const {history, generalPosts, auth, selectedPostsIDs, selectMode} = this.props;
     if (!auth.uid) return <Redirect to='/admin/signin' />
     return (
       <div className="container" style={{"marginTop": "10px"}}>
         <div className="row">
-          {posts ? posts.map(post => {
+          {generalPosts ? generalPosts.map(post => {
               // <Input id={post.id} onChange={this.handleChange} name='posts' type='checkbox' value={post.title} label={post.title} className='filled-in'/>
             const id = post.id
             let selected = selectedPostsIDs.has(id)
@@ -65,7 +65,7 @@ class PostList extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    posts: state.firestore.ordered.posts,
+    generalPosts: state.firestore.ordered.generalPosts,
     auth: state.firebase.auth,
     selectedPostsIDs: state.post.selectedPostsIDs,
     selectMode: state.post.selectMode

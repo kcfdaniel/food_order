@@ -5,6 +5,7 @@ import PreviewVideo from './PreviewVideo'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { updatePost } from './store/actions/postActions'
+import autosize from 'autosize'
 
 class EditPost extends Component {
   state = {
@@ -119,43 +120,49 @@ class EditPost extends Component {
         this.imageFileInput.value = [];
         this.videoFileInput.value = [];
         this.form.reset();
-        this.props.history.push('/admin/posts');
+        this.props.history.push('/admin/general');
       }
       window.Materialize.toast(err, 10000)
     })
   }
 
   cancel = () => {
-    this.props.history.push('/admin/posts');
+    this.props.history.push('/admin/general');
   }
 
   componentDidMount(){
-    const {posts} = this.props;
-    const postID = this.props.match.params.id
-    if(posts != null){
-      let post = posts.find(post => post.id == postID);
-      console.log(post);
-      this.setState({
-        ...post,
-        originalPicURL: post.picURL,
-        originalVideoURL: post.videoURL,
-      })
-    }
+    this.loadPost();
   }
 
   //same as componentWillReceiveProps
   componentDidUpdate(previousProps, previousState) {
-    if (previousProps.posts !== this.props.posts) {
-      const {posts} = this.props;
-      const postID = this.props.match.params.id
-      let post = posts.find(post => post.id == postID);
-      console.log(post);
-      this.setState({
-        ...post,
-        originalPicURL: post.picURL,
-        originalVideoURL: post.videoURL,
-      })
+    if (previousProps.generalPosts !== this.props.generalPosts) {
+      this.loadPost();
     }
+  }
+
+  loadPost = () => {
+    const {generalPosts} = this.props;
+      const postID = this.props.match.params.id
+      if(generalPosts != null){
+        let post = generalPosts.find(post => post.id == postID);
+        console.log(post);
+        this.setState({
+          ...post,
+          originalPicURL: post.picURL,
+          originalVideoURL: post.videoURL,
+        },()=>{
+          var ev2 = new Event('resize', { bubbles: true});
+          this.contentTextArea.dispatchEvent(ev2);
+          autosize(this.contentTextArea)
+        })
+
+        // var nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLTextAreaElement.prototype, "value").set;
+        // nativeInputValueSetter.call(this.contentTextArea, post.content);
+
+        var ev2 = new Event('resize', { bubbles: true});
+        this.contentTextArea.dispatchEvent(ev2);
+      }
   }
 
   clearPic = () => {
@@ -178,7 +185,8 @@ class EditPost extends Component {
 
   textChangeHandler = e => {
     this.setState({
-      [e.target.id]: e.target.value
+      [e.target.id]: e.target.value,
+      content: e.target.value
     })
   }
 
@@ -236,8 +244,8 @@ class EditPost extends Component {
             : ""}
           <div className="col s12">
             <label>Content</label>
-            <Input type='textarea' id="content" onChange={this.textChangeHandler} value={this.state.content}/>
-            {/* <textarea id="content" className="materialize-textarea" placeholder="Content" onChange={this.textChangeHandler} value={this.state.content}></textarea> */}
+            <textarea ref={ref=> this.contentTextArea = ref} name="textarea" id="content" className="materialize-textarea textarea" onChange={this.textChangeHandler} value={this.state.content}></textarea>
+            {/* <Input type='textarea' id="content" onChange={this.textChangeHandler} value={this.state.content}/> */}
             {/* <label htmlFor="textarea1">Content</label> */}
           </div>
           <span className="pink-text"> {this.state.error} </span>
@@ -255,7 +263,7 @@ class EditPost extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    posts: state.firestore.ordered.posts,
+    generalPosts: state.firestore.ordered.generalPosts,
   }
 }
 

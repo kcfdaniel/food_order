@@ -76,7 +76,7 @@ button:focus{
 
 .s .card-content{
   padding: 0px;
-  /* height: 50px; */
+  /* height: 100px; */
 }
 
 .s .card-content div .datetime{
@@ -175,3 +175,9 @@ button.create-post{
   -webkit-line-clamp: 3;
   overflow: hidden;
 } */
+
+/* admin page edit post */
+.textarea{
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}

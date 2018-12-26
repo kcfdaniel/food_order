@@ -5,7 +5,7 @@ import { firestoreConnect } from 'react-redux-firebase'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import Navbar from './Navbar'
 import Dashboard from './Dashboard'
-import CreatePost from './CreatePost'
+import CreateGeneralPost from './CreateGeneralPost'
 import PostList from './PostList'
 import SignIn from './SignIn'
 import EditPost from './EditPost'
@@ -29,8 +29,8 @@ class Admin extends Component {
         <Route path='/admin' render={(props)=><Navbar {...props}/>} />
           <Switch> 
             <Route exact path='/admin' component={Dashboard} />
-            <Route path='/admin/posts' component={PostList} />
-            <Route path='/admin/create-post' component={CreatePost} />
+            <Route path='/admin/general' component={PostList} />
+            <Route path='/admin/create-post' component={CreateGeneralPost} />
             {/* <Route path='/project/:id' component={ProjectDetails} /> */}
             <Route path='/admin/signin' component={SignIn} />
             <Route path='/admin/edit-post/:id' component={EditPost} />
@@ -59,6 +59,6 @@ export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   // when the projects collections updatesin firestore, it will automatically trigger the firestore reducer
   firestoreConnect([
-    { collection: 'posts', orderBy: ['createAt', 'desc']},
+    { collection: 'generalPosts', orderBy: ['createAt', 'desc']},
     ])
 )(Admin);
