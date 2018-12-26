@@ -28,7 +28,7 @@ class PostList extends Component {
   end = (e, id) => {
     console.log('END');
     const {history, selectMode, selectedPostsIDs, setSelectMode} = this.props;
-    if(!selectMode){
+    if(!selectMode){ 
       history.push("/admin/edit-post/" + id)
     }
     if(selectedPostsIDs.size === 0){
